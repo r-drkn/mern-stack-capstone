@@ -53,9 +53,11 @@ const useStyles = makeStyles((theme) => {
       "& span": {
         fontWeight: "400",
         color: fluro.main,
+        backgroundColor: secondary.main,
         outline: `4px double ${primary.main}`,
         outlineOffset: "-3px",
         padding: "0.5rem",
+        fontSize: "3rem",
         [breakpoints.down("sm")]: {
           fontSize: "1rem",
           letterSpacing: "1px",

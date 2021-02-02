@@ -61,7 +61,7 @@ export default function Genres() {
   const [genreStatus, setGenreStatus] = useState("loading");
   const [records, setRecords] = useState([]);
 
-  const showGenres = (allGenres) => {
+  const showGenres = function (allGenres) {
     const catalogGenres = [
       "Dub",
       "Reggae",
@@ -113,7 +113,7 @@ export default function Genres() {
         ? genres.push(genre)
         : null;
     });
-    console.log(genres);
+    // console.log(genres);
     setGenresList(genres);
   };
 

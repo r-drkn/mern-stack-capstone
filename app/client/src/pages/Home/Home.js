@@ -59,10 +59,7 @@ export default function Home(props) {
       <HeroImage>
         <div className={classes.heroContainer}>
           <Typography className={classes.heroText}>
-            HELLO AND WELCOME
-          </Typography>
-          <Typography className={classes.heroText}>
-            to the <span>catalog music</span> webstore
+            <span>catalog music</span>
           </Typography>
           <Divider />
         </div>

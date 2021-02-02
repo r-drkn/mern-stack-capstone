@@ -35,6 +35,8 @@ const sendCompactDB = async (req, res) => {
     styles.forEach((i) => compactDB.push({ group: "Styles", title: i }));
     const formats = await Vinyl.distinct("format");
     formats.forEach((i) => compactDB.push({ group: "Format", title: i }));
+    const labels = await Vinyl.distinct("labels");
+    labels.forEach((i) => compactDB.push({ group: "Labels", title: i }));
 
     res.status(200).json(compactDB);
   } catch (e) {
