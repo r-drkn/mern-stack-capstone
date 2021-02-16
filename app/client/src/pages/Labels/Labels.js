@@ -70,7 +70,7 @@ export default function Labels() {
           .filter((obj) => {
             return obj.group === "Labels";
           })
-          .map((obj) => obj.title.name);
+          .map((obj) => obj.title);
         const labels = [...new Set(labelsGrep)];
         console.log(labels);
         setLabelsList(labels);

@@ -25,6 +25,7 @@ const useStyles = makeStyles((theme) => {
   return {
     root: {},
     toolBarUpper: {
+      position: "relative",
       maxHeight: "5vh",
       justifyContent: "space-between",
       alignItems: "center",
@@ -61,6 +62,18 @@ const useStyles = makeStyles((theme) => {
         margin: "auto",
       },
     },
+    headingContainer: {
+      position: "absolute",
+      top: 0,
+      bottom: 0,
+      left: 0,
+      right: 0,
+      border: "2px solid red",
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+    },
+    
   };
 });
 
@@ -80,12 +93,21 @@ export default function ToolBarUpper() {
 
   return (
     <Toolbar className={classes.toolBarUpper}>
+      <div
+        className={
+          matchDesktopUp
+            ? classes.desktopHeadingContainer
+            : classes.headingContainer
+        }
+      >
+        <Link to="/" style={{ textDecoration: "none" }}>
+          <h1 className={classes.catalogHeading}>
+            {matchDesktopUp ? "catalogmusic" : "catalog"}
+          </h1>
+        </Link>
+      </div>
       {matchTabletDown && <MenuDrawer />}
-      <Link to="/" style={{ textDecoration: "none" }}>
-        <h1 className={classes.catalogHeading}>
-          {matchDesktopUp ? "catalogmusic" : "catalog"}
-        </h1>
-      </Link>
+
       <div>
         <React.Fragment>
           {(auth.isSuper() || auth.isAdmin()) && (

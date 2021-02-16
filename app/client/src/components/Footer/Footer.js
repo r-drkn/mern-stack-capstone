@@ -67,8 +67,18 @@ export default function Footer() {
       </div>
       <div className={classes.footerContainer}>
         <h3>Socials</h3>
-        <Link className={classes.socialsLinks}>Instagram</Link>
-        <Link className={classes.socialsLinks}>Facebook</Link>
+        <Link
+          className={classes.socialsLinks}
+          href="https://www.instagram.com/catalogmusic.co/"
+        >
+          Instagram
+        </Link>
+        <Link
+          className={classes.socialsLinks}
+          href="https://www.facebook.com/catalogrecordstore/"
+        >
+          Facebook
+        </Link>
       </div>
       <div className={classes.footerContainer}>
         <h3>Contact</h3>
