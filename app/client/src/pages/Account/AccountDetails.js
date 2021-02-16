@@ -1,7 +1,8 @@
 import { makeStyles, useTheme } from "@material-ui/core";
-import React from "react";
+import React, { useState } from "react";
 import ButtonMain from "../../components/ButtonMain/ButtonMain";
 import { useAuth } from "../../context/AuthContext";
+import { Redirect } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => {
   const {
@@ -25,18 +26,20 @@ export default function AccountDetails() {
   const theme = useTheme();
 
   const { username, email } = auth.authState;
+  const [logoutRedirect, setLogoutRedirect] = useState(false);
 
-  console.log(auth.authState);
+  const handleLogout = () => {
+    auth.logUserOut();
+    setLogoutRedirect(true);
+  };
 
   const {
     palette: { red },
   } = theme;
 
-  const handleLogout = () => {
-    auth.logUserOut();
-  };
   return (
     <div className={classes.detailsContainer}>
+      {logoutRedirect && <Redirect to="/" />}
       <h3>username: {username}</h3>
       <h3>email: {email}</h3>
       <ButtonMain color={red.main} handleClick={handleLogout}>

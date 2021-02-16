@@ -11,6 +11,7 @@ import { ACTIONS } from "../../context/reducers/cartReducer";
 import { useCart } from "../../context/CartContext";
 import { useAuth } from "../../context/AuthContext";
 import { buildCustomer } from "../../util/shop";
+import ShippingForm from "./ShippingForm";
 
 const useStyles = makeStyles((theme) => {
   const {
@@ -189,142 +190,146 @@ export default function ShippingDetails(props) {
         </div>
 
         {showShippingForm && (
-          <form
-            onSubmit={handleSubmit(handleShippingSubmit)}
-            id="shippingDetails"
-          >
-            <div className={classes.inputPairRow}>
-              <div className={classes.formGroup}>
-                <label className={classes.formLabel} htmlFor="first_name">
-                  first name
-                </label>
-                <input
-                  ref={register({ required: true })}
-                  className={classes.formInput}
-                  type="text"
-                  name="first_name"
-                  placeholder={placeHoldShipping("first_name")}
-                />
-                {errors.release_id && errors.release_id.type === "required" && (
-                  <p className={classes.errorMessage}>This is required</p>
-                )}
-              </div>
-              <div className={classes.formGroup}>
-                <label className={classes.formLabel} htmlFor="last_name">
-                  last name
-                </label>
-                <input
-                  ref={register({ required: true })}
-                  className={classes.formInput}
-                  type="text"
-                  name="last_name"
-                  placeholder={placeHoldShipping("last_name")}
-                />
-                {errors.release_id && errors.release_id.type === "required" && (
-                  <p className={classes.errorMessage}>This is required</p>
-                )}
-              </div>
-            </div>
-            <div className={classes.formGroup}>
-              <label className={classes.formLabel} htmlFor="address_line_1">
-                address line 1
-              </label>
-              <input
-                ref={register({ required: true })}
-                className={classes.addressLine1Input}
-                type="text"
-                name="address_line_1"
-                placeholder={placeHoldShipping("address_line_1")}
-              />
-              {errors.release_id && errors.release_id.type === "required" && (
-                <p className={classes.errorMessage}>This is required</p>
-              )}
-            </div>
+          <ShippingForm
+            showShippingForm={showShippingForm}
+            setShowShippingForm={setShowShippingForm}
+          ></ShippingForm>
+          // <form
+          //   onSubmit={handleSubmit(handleShippingSubmit)}
+          //   id="shippingDetails"
+          // >
+          //   <div className={classes.inputPairRow}>
+          //     <div className={classes.formGroup}>
+          //       <label className={classes.formLabel} htmlFor="first_name">
+          //         first name
+          //       </label>
+          //       <input
+          //         ref={register({ required: true })}
+          //         className={classes.formInput}
+          //         type="text"
+          //         name="first_name"
+          //         placeholder={placeHoldShipping("first_name")}
+          //       />
+          //       {errors.release_id && errors.release_id.type === "required" && (
+          //         <p className={classes.errorMessage}>This is required</p>
+          //       )}
+          //     </div>
+          //     <div className={classes.formGroup}>
+          //       <label className={classes.formLabel} htmlFor="last_name">
+          //         last name
+          //       </label>
+          //       <input
+          //         ref={register({ required: true })}
+          //         className={classes.formInput}
+          //         type="text"
+          //         name="last_name"
+          //         placeholder={placeHoldShipping("last_name")}
+          //       />
+          //       {errors.release_id && errors.release_id.type === "required" && (
+          //         <p className={classes.errorMessage}>This is required</p>
+          //       )}
+          //     </div>
+          //   </div>
+          //   <div className={classes.formGroup}>
+          //     <label className={classes.formLabel} htmlFor="address_line_1">
+          //       address line 1
+          //     </label>
+          //     <input
+          //       ref={register({ required: true })}
+          //       className={classes.addressLine1Input}
+          //       type="text"
+          //       name="address_line_1"
+          //       placeholder={placeHoldShipping("address_line_1")}
+          //     />
+          //     {errors.release_id && errors.release_id.type === "required" && (
+          //       <p className={classes.errorMessage}>This is required</p>
+          //     )}
+          //   </div>
 
-            <div className={classes.inputPairRow}>
-              <div className={classes.formGroup}>
-                <label className={classes.formLabel} htmlFor="locality">
-                  city
-                </label>
-                <input
-                  ref={register({ required: true })}
-                  className={classes.formInput}
-                  type="text"
-                  name="locality"
-                  placeholder={placeHoldShipping("locality")}
-                />
-                {errors.release_id && errors.release_id.type === "required" && (
-                  <p className={classes.errorMessage}>This is required</p>
-                )}
-              </div>
-              <div className={classes.formGroup}>
-                <label
-                  className={classes.formLabel}
-                  htmlFor="administrative_district_level_1"
-                >
-                  state
-                </label>
-                <input
-                  ref={register({ required: true })}
-                  className={classes.formInput}
-                  type="text"
-                  name="administrative_district_level_1"
-                  placeholder={placeHoldShipping(
-                    "administrative_district_level_1"
-                  )}
-                />
-                {errors.release_id && errors.release_id.type === "required" && (
-                  <p className={classes.errorMessage}>This is required</p>
-                )}
-              </div>
-            </div>
-            <div className={classes.inputPairRow}>
-              <div className={classes.formGroup}>
-                <label className={classes.formLabel} htmlFor="postal_code">
-                  postcode
-                </label>
-                <input
-                  ref={register({ required: true })}
-                  className={classes.formInput}
-                  type="text"
-                  name="postal_code"
-                  placeholder={placeHoldShipping("postal_code")}
-                />
-                {errors.release_id && errors.release_id.type === "required" && (
-                  <p className={classes.errorMessage}>This is required</p>
-                )}
-              </div>
-              <div className={classes.formGroup}>
-                <label className={classes.formLabel} htmlFor="phone_number">
-                  phone number
-                </label>
-                <input
-                  ref={register({ required: true })}
-                  className={classes.formInput}
-                  type="text"
-                  name="phone_number"
-                  placeholder={placeHoldShipping("phone_number")}
-                />
-                {errors.release_id && errors.release_id.type === "required" && (
-                  <p className={classes.errorMessage}>This is required</p>
-                )}
-              </div>
-            </div>
-            {successfulSubmit && (
-              <p className={classes.successfulSubmit}>
-                Record Submitted Successfully
-              </p>
-            )}
-            {/* TODO: syle this bottun with the fluro colour and ripple animation */}
-            <input
-              className={classes.submitButton}
-              type="submit"
-              value={
-                customer ? "Update Shipping Details" : "Add Shipping Details"
-              }
-              name="submit"
-            />
-          </form>
+          //   <div className={classes.inputPairRow}>
+          //     <div className={classes.formGroup}>
+          //       <label className={classes.formLabel} htmlFor="locality">
+          //         city
+          //       </label>
+          //       <input
+          //         ref={register({ required: true })}
+          //         className={classes.formInput}
+          //         type="text"
+          //         name="locality"
+          //         placeholder={placeHoldShipping("locality")}
+          //       />
+          //       {errors.release_id && errors.release_id.type === "required" && (
+          //         <p className={classes.errorMessage}>This is required</p>
+          //       )}
+          //     </div>
+          //     <div className={classes.formGroup}>
+          //       <label
+          //         className={classes.formLabel}
+          //         htmlFor="administrative_district_level_1"
+          //       >
+          //         state
+          //       </label>
+          //       <input
+          //         ref={register({ required: true })}
+          //         className={classes.formInput}
+          //         type="text"
+          //         name="administrative_district_level_1"
+          //         placeholder={placeHoldShipping(
+          //           "administrative_district_level_1"
+          //         )}
+          //       />
+          //       {errors.release_id && errors.release_id.type === "required" && (
+          //         <p className={classes.errorMessage}>This is required</p>
+          //       )}
+          //     </div>
+          //   </div>
+          //   <div className={classes.inputPairRow}>
+          //     <div className={classes.formGroup}>
+          //       <label className={classes.formLabel} htmlFor="postal_code">
+          //         postcode
+          //       </label>
+          //       <input
+          //         ref={register({ required: true })}
+          //         className={classes.formInput}
+          //         type="text"
+          //         name="postal_code"
+          //         placeholder={placeHoldShipping("postal_code")}
+          //       />
+          //       {errors.release_id && errors.release_id.type === "required" && (
+          //         <p className={classes.errorMessage}>This is required</p>
+          //       )}
+          //     </div>
+          //     <div className={classes.formGroup}>
+          //       <label className={classes.formLabel} htmlFor="phone_number">
+          //         phone number
+          //       </label>
+          //       <input
+          //         ref={register({ required: true })}
+          //         className={classes.formInput}
+          //         type="text"
+          //         name="phone_number"
+          //         placeholder={placeHoldShipping("phone_number")}
+          //       />
+          //       {errors.release_id && errors.release_id.type === "required" && (
+          //         <p className={classes.errorMessage}>This is required</p>
+          //       )}
+          //     </div>
+          //   </div>
+          //   {successfulSubmit && (
+          //     <p className={classes.successfulSubmit}>
+          //       Record Submitted Successfully
+          //     </p>
+          //   )}
+          //   {/* TODO: syle this bottun with the fluro colour and ripple animation */}
+          //   <input
+          //     className={classes.submitButton}
+          //     type="submit"
+          //     value={
+          //       customer ? "Update Shipping Details" : "Add Shipping Details"
+          //     }
+          //     name="submit"
+          //   />
+          // </form>
         )}
       </Card>
     </div>

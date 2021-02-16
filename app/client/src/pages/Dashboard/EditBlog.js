@@ -154,7 +154,7 @@ export default function AddRecords(props) {
           <p className={classes.successfulSubmit}>BLOG DELETED SUCCESSFULLY</p>
         )}
         <Button className={classes.deleteButton} onClick={() => handleDelete()}>
-          Delet Post
+          Delete Post
         </Button>
       </form>
     </div>

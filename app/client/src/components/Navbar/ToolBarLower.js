@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import React from "react";
 import SearchField from "./SearchField";
@@ -6,7 +6,7 @@ import Toolbar from "@material-ui/core/Toolbar";
 
 const useStyles = makeStyles((theme) => {
   const {
-    palette: { secondary },
+    palette: { fluro, secondary },
     breakpoints,
   } = theme;
 
@@ -26,9 +26,14 @@ const useStyles = makeStyles((theme) => {
       cursor: "pointer",
       "&:hover": {
         textDecoration: "none",
-        borderTop: "3px solid #EdFF00",
-        borderBottom: "3px solid #Edff00",
+        borderTop: `3px solid ${fluro.main}`,
+        borderBottom: `3px solid ${fluro.main}`,
       },
+    },
+    selected: {
+      textDecoration: "none",
+      borderTop: `3px solid ${fluro.main}`,
+      borderBottom: `3px solid ${fluro.main}`,
     },
   };
 });
@@ -39,18 +44,34 @@ export default function ToolBarLower() {
   return (
     <Toolbar className={classes.toolBarLower}>
       <div>
-        <Link to="/" className={classes.navLinks}>
-          new vinyl
-        </Link>
-        <Link to="/labels" className={classes.navLinks}>
+        <NavLink
+          to="/newstock"
+          className={classes.navLinks}
+          activeClassName={classes.selected}
+        >
+          new stock
+        </NavLink>
+        <NavLink
+          to="/labels"
+          className={classes.navLinks}
+          activeClassName={classes.selected}
+        >
           labels
-        </Link>
-        <Link to="/genres" className={classes.navLinks}>
+        </NavLink>
+        <NavLink
+          to="/genres"
+          className={classes.navLinks}
+          activeClassName={classes.selected}
+        >
           genres
-        </Link>
-        <Link to="/news" className={classes.navLinks}>
+        </NavLink>
+        <NavLink
+          to="/news"
+          className={classes.navLinks}
+          activeClassName={classes.selected}
+        >
           news
-        </Link>
+        </NavLink>
       </div>
       <SearchField />
     </Toolbar>

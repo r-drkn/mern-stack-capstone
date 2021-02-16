@@ -58,7 +58,6 @@ const useStyles = makeStyles((theme) => {
     deleteButton: {
       backgroundColor: red.main,
       borderRadius: 0,
-      color: primary.main,
     },
     cardActionContainer: {
       display: "flex",

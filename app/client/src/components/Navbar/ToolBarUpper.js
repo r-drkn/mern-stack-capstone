@@ -1,5 +1,5 @@
 import { makeStyles } from "@material-ui/core";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { Link as MuiLink } from "@material-ui/core/";
 import { useTheme } from "@material-ui/core/styles";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
@@ -23,7 +23,6 @@ const useStyles = makeStyles((theme) => {
   } = theme;
 
   return {
-    root: {},
     toolBarUpper: {
       position: "relative",
       maxHeight: "5vh",
@@ -42,9 +41,12 @@ const useStyles = makeStyles((theme) => {
       textDecoration: "none",
       display: "flex",
       alignItems: "center",
+      "&: focus": {
+        border: "none",
+      },
     },
     navLinks: {
-      color: "#333",
+      color: secondary.main,
       display: "inline-block",
       cursor: "pointer",
     },
@@ -68,12 +70,10 @@ const useStyles = makeStyles((theme) => {
       bottom: 0,
       left: 0,
       right: 0,
-      border: "2px solid red",
       display: "flex",
       justifyContent: "center",
       alignItems: "center",
     },
-    
   };
 });
 
@@ -100,11 +100,11 @@ export default function ToolBarUpper() {
             : classes.headingContainer
         }
       >
-        <Link to="/" style={{ textDecoration: "none" }}>
+        <NavLink to="/" style={{ textDecoration: "none" }}>
           <h1 className={classes.catalogHeading}>
             {matchDesktopUp ? "catalogmusic" : "catalog"}
           </h1>
-        </Link>
+        </NavLink>
       </div>
       {matchTabletDown && <MenuDrawer />}
 

@@ -19,7 +19,7 @@ const useStyles = makeStyles((theme) => {
       borderBottom: `4px double ${fluro.main}`,
     },
     recordModalCard: {
-      padding: "1rem",
+      padding: "1rem 3rem",
       display: "flex",
       justifyContent: "center",
       flexDirection: "column",
@@ -35,51 +35,12 @@ const useStyles = makeStyles((theme) => {
         padding: "2rem 5rem",
       },
     },
-    formTitle: {
-      marginBottom: "0px",
-      color: primary.main,
-    },
     closeButton: {
       position: "absolute",
       top: 0,
       left: 0,
       color: secondary.main,
     },
-    formContainer: {
-      display: "flex",
-      flexDirection: "column",
-      alignItems: "center",
-    },
-    formInput: {
-      height: "2rem",
-      fontSize: "1rem",
-    },
-
-    formGroup: {
-      display: "flex",
-      flexDirection: "column",
-      justifyContent: "center",
-      alignItems: "flex-start",
-      margin: "1rem",
-    },
-    submitButton: {
-      border: "1px solid black",
-      margin: "0rem 1rem 1rem",
-      color: secondary.main,
-      padding: "0.5rem 1rem",
-      backgroundColor: primary.main,
-      fontSize: "1rem",
-    },
-    formLabel: { fontSize: "1rem", color: primary.main },
-    errorMessage: {
-      color: red.main,
-    },
-    bottomLinks: {
-      color: primary.main,
-      fontSize: "1rem",
-      textDecoration: "underline",
-    },
-    signUpMessage: { color: primary.main },
     coverImage: {
       width: "100%",
     },

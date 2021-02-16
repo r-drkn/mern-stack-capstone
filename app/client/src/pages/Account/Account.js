@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { Redirect } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import {
   List,
@@ -29,7 +28,6 @@ const useStyles = makeStyles((theme) => {
     },
     contentContainer: {
       display: "flex",
-      border: "2px solid red",
     },
   };
 });
@@ -43,10 +41,6 @@ export default function Account() {
   const {
     palette: { red },
   } = theme;
-
-  const handleLogout = () => {
-    auth.logUserOut();
-  };
 
   return (
     <div className={classes.accountsContainer}>
@@ -62,11 +56,14 @@ export default function Account() {
           >
             <ListItemText primary="account details" />
           </ListItem>
-          <ListItem button onClick={() => setAccountComponent("newBlog")}>
+          <ListItem
+            button
+            onClick={() => setAccountComponent("shippingDetails")}
+          >
             <ListItemText primary="shipping details" />
           </ListItem>
         </List>
-        <div style={{ width: "80%", height: "100%", border: "2px solid red" }}>
+        <div style={{ width: "80%", height: "100%" }}>
           {accountComponent === "accountDetails" && <AccountDetails />}
           {accountComponent === "shippingDetails" && <ShippingDetails />}
         </div>

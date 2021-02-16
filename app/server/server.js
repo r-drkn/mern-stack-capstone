@@ -57,7 +57,7 @@ const sessionConfig = {
   resave: false,
   saveUninitialized: false,
   proxy: true,
-  cookie: { expires: 3600000, httpOnly: false },
+  cookie: { expires: 86_400_000, httpOnly: false },
   store: new MongoStore({ mongooseConnection: mongoose.connection }),
 };
 

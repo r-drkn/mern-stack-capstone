@@ -217,9 +217,22 @@ export default function RecordModal(props) {
                   RECORD SUCCESSFULLY DELETED
                 </p>
               )}
-              <ButtonMain color={red.main} handleClick={() => {}}>
-                delete
-              </ButtonMain>
+              <div
+                style={{
+                  padding: "1rem",
+                  display: "flex",
+                  justifyContent: "center",
+                }}
+              >
+                <ButtonMain
+                  color={red.main}
+                  handleClick={() => {
+                    deleteRecord();
+                  }}
+                >
+                  delete
+                </ButtonMain>
+              </div>
             </React.Fragment>
           )}
         </div>
