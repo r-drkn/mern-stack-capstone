@@ -152,6 +152,15 @@ const useStyles = makeStyles((theme) => {
     catalogNumber: {
       textAlign: "center",
     },
+    successfulSubmit: {
+      padding: "0.5rem",
+      backgroundColor: fluro.main,
+      color: secondary.main,
+      borderRadius: "5px",
+      margin: "auto",
+      textAlign: "center",
+      fontSize: "0.8rem",
+    },
   };
 });
 export default useStyles;

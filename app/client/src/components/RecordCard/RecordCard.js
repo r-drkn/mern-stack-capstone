@@ -26,7 +26,6 @@ export default function RecordCard(props) {
   const { dispatch } = useCart();
   const auth = useAuth();
   const { record } = props;
-  const [recordModalState, setRecordModalState] = useState();
   const { isSuper } = auth;
   const {
     release_title: releaseTitle,
@@ -43,6 +42,7 @@ export default function RecordCard(props) {
   } = record;
   const globe = useGlobal();
   const { setEditRecordId, setSearchQuery } = globe;
+  const [recordModalState, setRecordModalState] = useState(false);
   const [blur, setBlur] = useState("blur(0px)");
   const [display, setDisplay] = useState("none");
   const [editRedirect, setEditRedirect] = useState(false);
@@ -70,125 +70,124 @@ export default function RecordCard(props) {
   };
 
   return (
-    <Card className={classes.card} raised>
-      {editRedirect && <Redirect to="/dashboard" />}
-      {resultsRedirect && <Redirect to="/results" />}
+    <div>
+      <Card className={classes.card} raised>
+        {editRedirect && <Redirect to="/dashboard" />}
+        {resultsRedirect && <Redirect to="/results" />}
 
-      {recordModalState && (
-        <RecordModal
-          record={record}
-          recordModalState={recordModalState}
-          setRecordModalState={setRecordModalState}
-        />
-      )}
-      <Box
-        onMouseEnter={() => handleHover("blur(50px)", "block")}
-        onMouseLeave={() => handleHover("blur(0px)", "none")}
-        style={{ position: "relative" }}
-      >
-        <img
-          alt="record cover"
-          src={image}
-          className={classes.coverImage}
-          style={{
-            filter: blur,
-            transition: "0.5s filter",
-          }}
-        />
-
-        {blur && (
-          <p
-            className={classes.recordReview}
+        {recordModalState && (
+          <RecordModal
+            record={record}
+            recordModalState={recordModalState}
+            setRecordModalState={setRecordModalState}
+          />
+        )}
+        <Box
+          onMouseEnter={() => handleHover("blur(50px)", "block")}
+          onMouseLeave={() => handleHover("blur(0px)", "none")}
+          style={{ position: "relative" }}
+        >
+          <img
+            alt="record cover"
+            src={image}
+            className={classes.coverImage}
             style={{
-              display: display,
+              filter: blur,
+              transition: "0.5s filter",
             }}
-          >
-            {review}
-          </p>
-        )}
-        {preloved && (
-          <Chip
-            label="pre-loved"
-            size="small"
-            className={classes.preLovedChip}
-            onClick={() => resultsClick("preloved", true)}
           />
-        )}
-        {isSuper() ? (
-          <Chip
-            label="edit"
-            size="small"
-            className={classes.editChip}
-            onClick={() => handleEditClick()}
-          />
-        ) : (
+
+          {blur && (
+            <p
+              className={classes.recordReview}
+              style={{
+                display: display,
+              }}
+            >
+              {review}
+            </p>
+          )}
+          {preloved && (
+            <Chip
+              label="pre-loved"
+              size="small"
+              className={classes.preLovedChip}
+              onClick={() => resultsClick("preloved", true)}
+            />
+          )}
+          {isSuper() && (
+            <Chip
+              label="edit"
+              size="small"
+              className={classes.editChip}
+              onClick={() => handleEditClick()}
+            />
+          )}
           <Chip
             label="more info"
             size="small"
             className={classes.moreInfoChip}
             onClick={() => setRecordModalState(true)}
           />
-        )}
-      </Box>
-      <CardContent style={{ position: "relative", padding: "2px" }}>
-        <div className={classes.flexedRow}>
-          <Typography
-            className={classes.artistName}
-            onClick={() => resultsClick("artists", artist)}
-          >
-            {abbreviateTitle(artist, 18)}
-          </Typography>
-          <Typography className={classes.recordPrice}>
-            ${toCurrencyString(price)}
-          </Typography>
-        </div>
-        <div className={classes.flexedRow}>
-          <Typography className={classes.recordTitle}>
-            {abbreviateTitle(releaseTitle, 21)}
-          </Typography>
-        </div>
-        <div className={classes.labelAndYearRow}>
-          <Typography className={classes.labelAndYear}>
-            {parseLabelData(labels) + " • "}
-          </Typography>
-          <Typography
-            className={classes.labelAndYear}
-            onClick={() => resultsClick("year", year)}
-          >
-            {year}
-          </Typography>
-        </div>
-        <div className={classes.flexedRow}>
-          <Typography className={classes.cardGenres}>
-            {styles.length === 1
-              ? styles[0]
-              : <span>styles[0]</span> + " / " + styles[1]}
-          </Typography>
-        </div>
-        <IconButton
-          edge="end"
-          style={{
-            position: "absolute",
-            bottom: -4,
-            right: 8,
-          }}
-          onClick={() => {
-            dispatch({
-              type: ACTIONS.ADD_RECORD,
-              payload: record,
-            });
-          }}
-        >
-          <div className={classes.iconContainer}>
-            <span className={classes.addIcon}>ADD</span>
-            <CartIcon
-              className={classes.cartIcon}
-              color="secondary"
-              viewBox="0 0 60 60"
-            />
+        </Box>
+        <CardContent style={{ position: "relative", padding: "2px" }}>
+          <div className={classes.flexedRow}>
+            <Typography
+              className={classes.artistName}
+              onClick={() => resultsClick("artists", artist)}
+            >
+              {abbreviateTitle(artist, 18)}
+            </Typography>
+            <Typography className={classes.recordPrice}>
+              ${toCurrencyString(price)}
+            </Typography>
           </div>
-        </IconButton>
-      </CardContent>
-    </Card>
+          <div className={classes.flexedRow}>
+            <Typography className={classes.recordTitle}>
+              {abbreviateTitle(releaseTitle, 21)}
+            </Typography>
+          </div>
+          <div className={classes.labelAndYearRow}>
+            <Typography className={classes.labelAndYear}>
+              {parseLabelData(labels) + " • "}
+            </Typography>
+            <Typography
+              className={classes.labelAndYear}
+              onClick={() => resultsClick("year", year)}
+            >
+              {year}
+            </Typography>
+          </div>
+          <div className={classes.flexedRow}>
+            <Typography className={classes.cardGenres}>
+              {styles.length === 1 ? styles[0] : styles[0] + " / " + styles[1]}
+            </Typography>
+          </div>
+          <IconButton
+            edge="end"
+            style={{
+              position: "absolute",
+              bottom: -4,
+              right: 8,
+            }}
+            onClick={() => {
+              dispatch({
+                type: ACTIONS.ADD_RECORD,
+                payload: record,
+              });
+            }}
+          >
+            <div className={classes.iconContainer}>
+              <span className={classes.addIcon}>ADD</span>
+              <CartIcon
+                className={classes.cartIcon}
+                color="secondary"
+                viewBox="0 0 60 60"
+              />
+            </div>
+          </IconButton>
+        </CardContent>
+      </Card>
+    </div>
   );
 }

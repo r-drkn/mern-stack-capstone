@@ -94,7 +94,7 @@ const useStyles = makeStyles((theme) => {
     editChip: {
       color: secondary.main,
       position: "absolute",
-      bottom: 0,
+      top: 0,
       left: 0,
       margin: "1rem 0.5rem",
     },

@@ -17,6 +17,9 @@ const useStyles = makeStyles((theme) => {
     root: {
       height: "1.5rem",
       width: "25vw",
+      [breakpoints.only("md")]: {
+        width: "30vw",
+      },
       [breakpoints.down("sm")]: {
         width: "70vw",
         margin: "auto",
@@ -33,9 +36,9 @@ const useStyles = makeStyles((theme) => {
       backgroundColor: secondary.main,
       color: "#777",
       margin: "10px auto",
-      width: "80%",
+      width: "100%",
       letterSpacing: 2,
-      padding: 0,
+      padding: "0.8rem 0rem",
       lineHeight: "normal",
     },
     noOptions: {
@@ -77,9 +80,20 @@ export default function SearchField() {
     getRecords();
   }, []);
 
-  const options = records.map((option) => {
-    return { ...option };
+  const cleanedRecords = records.filter((option) => option.title); // filter those options that contain titles
+
+  const options = [
+    ...new Map(cleanedRecords.map((option) => [option.title, option])).values(),
+  ].sort((a, b) => {
+    if (a.group < b.group) {
+      return -1;
+    }
+    if (a.group > b.group) {
+      return 1;
+    }
+    return 0;
   });
+
   const handleOpen = () => {
     setOpen(!open);
   };

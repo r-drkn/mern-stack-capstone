@@ -65,6 +65,7 @@ export default function Labels() {
     const getLabels = async () => {
       try {
         const { data } = await API.get("/records/search");
+        console.log("data labels:", data);
         const labelsGrep = data
           .filter((obj) => {
             return obj.group === "Labels";

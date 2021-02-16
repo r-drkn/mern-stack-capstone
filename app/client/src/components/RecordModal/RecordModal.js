@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Card from "@material-ui/core/Card";
 import {
   CardContent,
@@ -6,6 +6,7 @@ import {
   IconButton,
   Modal,
   Typography,
+  useTheme,
 } from "@material-ui/core";
 import useStyles from "./RecordModalStyles";
 import CartIcon from "../../icons/BoxFull";
@@ -18,17 +19,28 @@ import {
   parseLabelData,
   abbreviateTitle,
 } from "../../util/helpers/recordCardHelpers";
+import ButtonMain from "../ButtonMain/ButtonMain";
+import { API } from "../../util/fetch";
+import { Redirect } from "react-router-dom";
+import { useGlobal } from "../../context/GlobalState";
 
 export default function RecordModal(props) {
+  const [successfulDelete, setSuccessfulDelete] = useState(false);
+  const [redirectOnDelete, setRedirectOnDelete] = useState(false);
   const classes = useStyles();
   const { dispatch } = useCart();
   const auth = useAuth();
+  const theme = useTheme();
+  const {
+    palette: { red },
+  } = theme;
 
   const { isSuper } = auth;
 
   const { recordModalState, setRecordModalState } = props;
 
   const {
+    square_id: recordId,
     release_title: releaseTitle,
     artists_sort: artist,
     styles,
@@ -47,27 +59,46 @@ export default function RecordModal(props) {
     setRecordModalState(false);
   };
 
+  const deleteRecord = async () => {
+    try {
+      await API.delete(`/shop/delete/`, { data: { item: recordId } });
+      showSuccessfulDelete();
+      setRedirectOnDelete(true);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const showSuccessfulDelete = () => {
+    setSuccessfulDelete(true);
+    setTimeout(() => {
+      setSuccessfulDelete(false);
+    }, 2000);
+  };
+
   return (
     <Modal
       open={recordModalState}
       className={classes.recordModal}
       onClose={closeClick}
+      style={{ border: "2px solid red" }}
     >
+      {/* {redirectOnDelete && <Redirect to="/" />} */}
       <Card
         className={classes.recordModalCard}
         style={{
           overflowY: "auto",
           position: "relative",
+          paddingTop: "3rem",
         }}
       >
-        <IconButton className={classes.closeButton}>
-          <CloseIcon onClick={closeClick} />
+        <IconButton className={classes.closeButton} onClick={closeClick}>
+          <CloseIcon />
         </IconButton>
         <div
           style={{
             width: "100%",
             height: "100%",
-            position: "relative",
           }}
         >
           <div
@@ -156,6 +187,7 @@ export default function RecordModal(props) {
             {tracklist.map((track) => {
               return (
                 <span
+                  key={track.title}
                   className={classes.trackList}
                   style={{
                     display: "flex",
@@ -177,6 +209,18 @@ export default function RecordModal(props) {
               <h3 className={classes.infoTitles}>catalog number</h3>
               <p className={classes.catalogNumber}>{labels[0].catno}</p>
             </div>
+          )}
+          {isSuper() && (
+            <React.Fragment>
+              {successfulDelete && (
+                <p className={classes.successfulSubmit}>
+                  RECORD SUCCESSFULLY DELETED
+                </p>
+              )}
+              <ButtonMain color={red.main} handleClick={() => {}}>
+                delete
+              </ButtonMain>
+            </React.Fragment>
           )}
         </div>
       </Card>

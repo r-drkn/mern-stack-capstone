@@ -2,13 +2,8 @@ import React from "react";
 import { Button, makeStyles } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => {
-  const {
-    palette: { red, primary },
-  } = theme;
   return {
     button: {
-      //   backgroundColor: red.main,
-      //   color: primary.main,
       borderRadius: 0,
       padding: "0.5rem 1rem",
       marginTop: "1rem",

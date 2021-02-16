@@ -171,6 +171,7 @@ const listItems = async (req, res) => {
 };
 
 const deleteItem = async (req, res) => {
+  console.log(req);
   try {
     const deleted = await square.deleteItem(req.body.item);
     const deletedVinyl = await Vinyl.findOneAndDelete({
@@ -178,6 +179,7 @@ const deleteItem = async (req, res) => {
     });
     res.status(200).json({ deleted, deletedVinyl });
   } catch (e) {
+    console.log("Something");
     res.status(400).json(e.message);
   }
 };

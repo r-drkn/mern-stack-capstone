@@ -76,6 +76,7 @@ const useStyles = makeStyles((theme) => {
       color: primary.main,
       fontSize: "1rem",
       textDecoration: "underline",
+      padding: "0.5rem 1rem",
     },
     signUpMessage: { color: primary.main },
   };

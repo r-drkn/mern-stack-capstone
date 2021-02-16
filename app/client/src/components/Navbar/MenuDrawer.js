@@ -12,7 +12,6 @@ import {
 import MenuIcon from "@material-ui/icons/Menu";
 import { makeStyles } from "@material-ui/core";
 import SearchField from "./SearchField";
-import ToolBarDrawer from "./ToolBarMenuDrawer";
 import { Link } from "react-router-dom";
 import { useGlobal } from "../../context/GlobalState";
 import { useAuth } from "../../context/AuthContext";
@@ -139,6 +138,7 @@ export default function MenuDrawer() {
             />
           ) : (
             <ListItemLink
+              to=""
               primary="log in"
               onClick={() => globe.setLoginModalState(true)}
             />
