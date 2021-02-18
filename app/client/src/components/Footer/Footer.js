@@ -13,6 +13,7 @@ const useStyles = makeStyles((theme) => {
       width: "90vw",
       borderTop: `2px solid ${secondary.light}`,
       paddingBottom: "5vh",
+      justifyContent: "flex-end",
       [breakpoints.only("lg")]: {
         width: "80vw",
       },
@@ -23,7 +24,9 @@ const useStyles = makeStyles((theme) => {
     footerContainer: {
       display: "flex",
       flexDirection: "column",
-      margin: "0 1rem",
+      margin: "1rem",
+      // borderLeft: "2px solid #CDCDCD",
+      // paddingLeft: "1rem",
     },
     contactList: {
       listStyle: "none",
@@ -36,11 +39,24 @@ const useStyles = makeStyles((theme) => {
       listStyle: "none",
       margin: 0,
       padding: 0,
-      display: "flex",
-      flexDirection: "column",
+      "& li": {
+        fontSize: "1rem",
+        letterSpacing: "1px"
+      },
     },
     socialsLinks: {
+      fontSize: "1rem",
       color: secondary.main,
+      marginBottom: "1rem",
+      letterSpacing: "1.5px",
+      cursor: "pointer",
+    },
+    footerHeadings: {
+      letterSpacing: "6px",
+      color: "#777",
+    },
+    footerSmallText: {
+      fontSize: "0.8rem",
     },
   };
 });
@@ -51,47 +67,57 @@ export default function Footer() {
 
   return (
     <div className={classes.root}>
+      <div
+        className={classes.footerContainer}
+        style={{ border: "2px solid red", flex: "1" }}
+      ></div>
       <div className={classes.footerContainer}>
-        <h3>Catalog Music</h3>
-        <ul className={classes.contactList}>
-          <li>email: hey@catalogmusic.com</li>
-          <li>
-            <h4>Store Address</h4>
-            <ul className={classes.addressList}>
-              <li>74 Wickham Street</li>
-              <li>Fortitude Valley</li>
-              <li>QLD 4006</li>
-            </ul>
-          </li>
+        <h3 className={classes.footerHeadings}>STORE ADDRESS</h3>
+        <ul className={classes.addressList}>
+          <li>74 Wickham Street</li>
+          <li>Fortitude Valley</li>
+          <li>QLD 4006</li>
         </ul>
       </div>
       <div className={classes.footerContainer}>
-        <h3>Socials</h3>
+        <h3 className={classes.footerHeadings} style={{}}>
+          SOCIALS
+        </h3>
         <Link
+          rel="noopener noreferrer"
+          target="_blank"
           className={classes.socialsLinks}
           href="https://www.instagram.com/catalogmusic.co/"
+          underline="always"
         >
-          Instagram
+          instagram
         </Link>
         <Link
+          rel="noopener noreferrer"
+          target="_blank"
           className={classes.socialsLinks}
           href="https://www.facebook.com/catalogrecordstore/"
+          underline="always"
         >
-          Facebook
+          facebook
         </Link>
       </div>
       <div className={classes.footerContainer}>
-        <h3>Contact</h3>
+        <h3 className={classes.footerHeadings}>CONTACT</h3>
         <Link
+          component="a"
           className={classes.socialsLinks}
           onClick={() => setContactModal(true)}
+          underline="always"
         >
-          Contact
+          message us!
         </Link>
         <ContactModal
           contactModal={contactModal}
           setContactModal={setContactModal}
         ></ContactModal>
+        <h3 className={classes.footerHeadings}>EMAIL</h3>
+        <span>hey@catalogmusic.com</span>
       </div>
     </div>
   );

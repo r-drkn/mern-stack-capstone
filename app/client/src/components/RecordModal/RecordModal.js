@@ -21,8 +21,7 @@ import {
 } from "../../util/helpers/recordCardHelpers";
 import ButtonMain from "../ButtonMain/ButtonMain";
 import { API } from "../../util/fetch";
-import { Redirect } from "react-router-dom";
-import { useGlobal } from "../../context/GlobalState";
+import { Redirect, useHistory } from "react-router-dom";
 
 export default function RecordModal(props) {
   const [successfulDelete, setSuccessfulDelete] = useState(false);
@@ -34,6 +33,7 @@ export default function RecordModal(props) {
   const {
     palette: { red },
   } = theme;
+  let history = useHistory();
 
   const { isSuper } = auth;
 
@@ -63,7 +63,9 @@ export default function RecordModal(props) {
     try {
       await API.delete(`/shop/delete/`, { data: { item: recordId } });
       showSuccessfulDelete();
-      setRedirectOnDelete(true);
+      // setRedirectOnDelete(true);
+      history.push("/");
+      setRecordModalState(false);
     } catch (error) {
       console.log(error);
     }
@@ -77,166 +79,168 @@ export default function RecordModal(props) {
   };
 
   return (
-    <Modal
-      open={recordModalState}
-      className={classes.recordModal}
-      onClose={closeClick}
-      style={{ border: "2px solid red" }}
-    >
+    <div>
       {/* {redirectOnDelete && <Redirect to="/" />} */}
-      <Card
-        className={classes.recordModalCard}
-        style={{
-          overflowY: "auto",
-          position: "relative",
-          paddingTop: "3rem",
-        }}
+      <Modal
+        open={recordModalState}
+        className={classes.recordModal}
+        onClose={closeClick}
+        style={{ border: "2px solid red" }}
       >
-        <IconButton className={classes.closeButton} onClick={closeClick}>
-          <CloseIcon />
-        </IconButton>
-        <div
+        <Card
+          className={classes.recordModalCard}
           style={{
-            width: "100%",
-            height: "100%",
+            overflowY: "auto",
+            position: "relative",
+            paddingTop: "3rem",
           }}
         >
+          <IconButton className={classes.closeButton} onClick={closeClick}>
+            <CloseIcon />
+          </IconButton>
           <div
-            className={classes.imageContainer}
             style={{
-              width: "300px",
-              height: "300px",
-              position: "relative",
+              width: "100%",
+              height: "100%",
             }}
           >
-            <img
-              alt="record cover"
-              src={image}
-              className={classes.coverImage}
-            />
-            {preloved && (
-              <Chip
-                label="pre-loved"
-                size="small"
-                className={classes.preLovedChip}
-              />
-            )}
-            {isSuper() && (
-              <Chip label="edit" size="small" className={classes.editChip} />
-            )}
-          </div>
-          <CardContent style={{ position: "relative", padding: "2px" }}>
-            <div className={classes.flexedRow}>
-              <Typography className={classes.artistName}>
-                {abbreviateTitle(artist, 18)}
-              </Typography>
-              <Typography className={classes.recordPrice}>
-                ${toCurrencyString(price)}
-              </Typography>
-            </div>
-            <div className={classes.flexedRow}>
-              <Typography className={classes.recordTitle}>
-                {abbreviateTitle(releaseTitle, 21)}
-              </Typography>
-            </div>
-            <div className={classes.flexedRow}>
-              <Typography className={classes.labelAndYear}>
-                {parseLabelData(labels)} • {year}
-              </Typography>
-            </div>
-            <div className={classes.flexedRow}>
-              <Typography className={classes.cardGenres}>
-                {styles.length === 1
-                  ? styles[0]
-                  : styles[0] + " / " + styles[1]}
-              </Typography>
-            </div>
-            <IconButton
-              edge="end"
+            <div
+              className={classes.imageContainer}
               style={{
-                position: "absolute",
-                bottom: -4,
-                right: 8,
-              }}
-              onClick={() => {
-                dispatch({
-                  type: ACTIONS.ADD_RECORD,
-                  payload: props.record,
-                });
+                width: "300px",
+                height: "300px",
+                position: "relative",
               }}
             >
-              <div className={classes.iconContainer}>
-                <span className={classes.addIcon}>ADD</span>
-                <CartIcon
-                  className={classes.cartIcon}
-                  color="secondary"
-                  viewBox="0 0 60 60"
+              <img
+                alt="record cover"
+                src={image}
+                className={classes.coverImage}
+              />
+              {preloved && (
+                <Chip
+                  label="pre-loved"
+                  size="small"
+                  className={classes.preLovedChip}
                 />
-              </div>
-            </IconButton>
-          </CardContent>
-          {description && (
-            <div className={classes.descriptionContainer}>
-              <h3 className={classes.infoTitles}>description</h3>
-              <p className={classes.description}>{description}</p>
-            </div>
-          )}
-
-          <div className={classes.trackListContainer}>
-            <h3 className={classes.infoTitles}>tracklist</h3>
-            {tracklist.map((track) => {
-              return (
-                <span
-                  key={track.title}
-                  className={classes.trackList}
-                  style={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    width: "100%",
-                    padding: 0,
-                    margin: 0,
-                  }}
-                >
-                  <h5>{track.position}</h5>
-                  <h5>{track.title}</h5>
-                  <h5>{track.duration}</h5>
-                </span>
-              );
-            })}
-          </div>
-          {labels.length > 0 && (
-            <div className={classes.catalogNumberContainer}>
-              <h3 className={classes.infoTitles}>catalog number</h3>
-              <p className={classes.catalogNumber}>{labels[0].catno}</p>
-            </div>
-          )}
-          {isSuper() && (
-            <React.Fragment>
-              {successfulDelete && (
-                <p className={classes.successfulSubmit}>
-                  RECORD SUCCESSFULLY DELETED
-                </p>
               )}
-              <div
+              {isSuper() && (
+                <Chip label="edit" size="small" className={classes.editChip} />
+              )}
+            </div>
+            <CardContent style={{ position: "relative", padding: "2px" }}>
+              <div className={classes.flexedRow}>
+                <Typography className={classes.artistName}>
+                  {abbreviateTitle(artist, 18)}
+                </Typography>
+                <Typography className={classes.recordPrice}>
+                  ${toCurrencyString(price)}
+                </Typography>
+              </div>
+              <div className={classes.flexedRow}>
+                <Typography className={classes.recordTitle}>
+                  {abbreviateTitle(releaseTitle, 21)}
+                </Typography>
+              </div>
+              <div className={classes.flexedRow}>
+                <Typography className={classes.labelAndYear}>
+                  {parseLabelData(labels)} • {year}
+                </Typography>
+              </div>
+              <div className={classes.flexedRow}>
+                <Typography className={classes.cardGenres}>
+                  {styles.length === 1
+                    ? styles[0]
+                    : styles[0] + " / " + styles[1]}
+                </Typography>
+              </div>
+              <IconButton
+                edge="end"
                 style={{
-                  padding: "1rem",
-                  display: "flex",
-                  justifyContent: "center",
+                  position: "absolute",
+                  bottom: -4,
+                  right: 8,
+                }}
+                onClick={() => {
+                  dispatch({
+                    type: ACTIONS.ADD_RECORD,
+                    payload: props.record,
+                  });
                 }}
               >
-                <ButtonMain
-                  color={red.main}
-                  handleClick={() => {
-                    deleteRecord();
+                <div className={classes.iconContainer}>
+                  <span className={classes.addIcon}>ADD</span>
+                  <CartIcon
+                    className={classes.cartIcon}
+                    color="secondary"
+                    viewBox="0 0 60 60"
+                  />
+                </div>
+              </IconButton>
+            </CardContent>
+            {description && (
+              <div className={classes.descriptionContainer}>
+                <h3 className={classes.infoTitles}>description</h3>
+                <p className={classes.description}>{description}</p>
+              </div>
+            )}
+
+            <div className={classes.trackListContainer}>
+              <h3 className={classes.infoTitles}>tracklist</h3>
+              {tracklist.map((track) => {
+                return (
+                  <span
+                    key={track.title}
+                    className={classes.trackList}
+                    style={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      width: "100%",
+                      padding: 0,
+                      margin: 0,
+                    }}
+                  >
+                    <h5>{track.position}</h5>
+                    <h5>{track.title}</h5>
+                    <h5>{track.duration}</h5>
+                  </span>
+                );
+              })}
+            </div>
+            {labels.length > 0 && (
+              <div className={classes.catalogNumberContainer}>
+                <h3 className={classes.infoTitles}>catalog number</h3>
+                <p className={classes.catalogNumber}>{labels[0].catno}</p>
+              </div>
+            )}
+            {isSuper() && (
+              <React.Fragment>
+                {successfulDelete && (
+                  <p className={classes.successfulSubmit}>
+                    RECORD SUCCESSFULLY DELETED
+                  </p>
+                )}
+                <div
+                  style={{
+                    padding: "1rem",
+                    display: "flex",
+                    justifyContent: "center",
                   }}
                 >
-                  delete
-                </ButtonMain>
-              </div>
-            </React.Fragment>
-          )}
-        </div>
-      </Card>
-    </Modal>
+                  <ButtonMain
+                    color={red.main}
+                    handleClick={() => {
+                      deleteRecord();
+                    }}
+                  >
+                    delete
+                  </ButtonMain>
+                </div>
+              </React.Fragment>
+            )}
+          </div>
+        </Card>
+      </Modal>
+    </div>
   );
 }

@@ -15,7 +15,7 @@ export default function Home(props) {
     async () => {
       const { data } = await API.post("/records/query", {
         category: "year",
-        title: "2020",
+        title: "2021",
       });
       return data;
     }
