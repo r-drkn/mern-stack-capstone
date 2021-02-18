@@ -38,7 +38,9 @@ const createCx = async (req, res) => {
 
   try {
     if (!dataChecker(payload)) {
-      res.status(400).json({ message: "data malformed." });
+      console.log({ message: "data malformed.", received: payload });
+
+      res.status(400).json({ message: "data malformed.", received: payload });
     } else {
       const { data } = await axios.post(
         "/customers",

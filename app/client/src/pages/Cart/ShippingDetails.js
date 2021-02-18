@@ -164,6 +164,9 @@ export default function ShippingDetails(props) {
       }
       setShowShippingForm(false);
     } catch (e) {
+      console.log(e);
+      console.log("-----------------------------------------");
+
       console.log(e.message);
     }
   };

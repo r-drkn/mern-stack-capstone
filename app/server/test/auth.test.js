@@ -2,7 +2,8 @@ const chai = require("chai");
 const chaiHttp = require("chai-http");
 const bcrypt = require("bcrypt");
 const { app } = require("../server");
-const fakeData = require("./test_data/auth.json");
+const fakeData = require("./data.json");
+const { sample } = require("./helpers");
 const testRoute = "/api/auth";
 
 // Configures Chai
@@ -19,7 +20,7 @@ after(() => agent.close());
 
 describe("POST /signup | create user functionality.", () => {
   it("should NOT create a new user when there are MISSING FIELDS.", async () => {
-    const malformedData = { ...fakeData.user };
+    const malformedData = { ...fakeData.new_user };
     delete malformedData.username;
 
     const res = await chai
@@ -37,14 +38,15 @@ describe("POST /signup | create user functionality.", () => {
   });
 
   it("should CREATE a new user with user permissions", async () => {
+    const user = fakeData.new_user;
     const res = await chai
       .request(app)
       .post(`${testRoute}/signup`)
       .type("form")
-      .send(fakeData.user);
+      .send(user);
 
     const passwordComparison = await bcrypt.compare(
-      fakeData.user.password,
+      user.password,
       res.body.password
     );
 
@@ -54,17 +56,18 @@ describe("POST /signup | create user functionality.", () => {
     expect(res.body).to.have.property("roles");
     expect(res.body.roles).to.be.an("array");
     expect(res.body.roles).to.deep.equal(["user"]);
-    expect(res.body.username).to.equal(fakeData.user.username);
-    expect(res.body.email).to.equal(fakeData.user.email);
+    expect(res.body.username).to.equal(user.username);
+    expect(res.body.email).to.equal(user.email);
     expect(passwordComparison).to.be.true;
   });
 
   it("should NOT create a new user when user ALREADY EXISTS.", async () => {
+    const user = sample(fakeData.users);
     const res = await chai
       .request(app)
       .post(`${testRoute}/signup`)
       .type("form")
-      .send(fakeData.user);
+      .send(user);
 
     // --- assertions ---
     expect(res).to.have.status(400);
@@ -79,7 +82,7 @@ describe("POST /signup | create user functionality.", () => {
 
 describe("POST /login |  authenticate user functionality.", () => {
   it("should NOT authenticate a user with an INVALID password.", async () => {
-    malformedData = { ...fakeData.user };
+    malformedData = { ...sample(fakeData.users) };
     malformedData.password = "HorriblyWrong69!";
     const res = await chai
       .request(app)
@@ -98,7 +101,7 @@ describe("POST /login |  authenticate user functionality.", () => {
   });
 
   it("should NOT authenticate a user with an INVALID username / email.", async () => {
-    malformedData = { ...fakeData.user };
+    malformedData = { ...sample(fakeData.users) };
     malformedData.username = "JaneBlow";
     malformedData.email = "janeblow@email.com";
     const res = await chai
@@ -118,7 +121,7 @@ describe("POST /login |  authenticate user functionality.", () => {
   });
 
   it("should NOT authenticate a user WITHOUT a password.", async () => {
-    malformedData = { ...fakeData.user };
+    malformedData = { ...sample(fakeData.users) };
     delete malformedData.password;
     const res = await chai
       .request(app)
@@ -137,7 +140,7 @@ describe("POST /login |  authenticate user functionality.", () => {
   });
 
   it("should NOT authenticate a user WITHOUT a username / email.", async () => {
-    malformedData = { ...fakeData.user };
+    malformedData = { ...sample(fakeData.users) };
     delete malformedData.username;
     delete malformedData.email;
     const res = await chai
@@ -157,10 +160,8 @@ describe("POST /login |  authenticate user functionality.", () => {
   });
 
   it("should AUTHENTICATE a user when submitting correct credentials.", async () => {
-    const res = await agent
-      .post(`${testRoute}/login`)
-      .type("form")
-      .send(fakeData.user);
+    const user = sample(fakeData.users);
+    const res = await agent.post(`${testRoute}/login`).type("form").send(user);
 
     // --- assertions ---
     expect(res.error).to.be.false;
@@ -169,15 +170,13 @@ describe("POST /login |  authenticate user functionality.", () => {
     expect(res.body).to.have.property("roles");
     expect(res.body.roles).to.be.an("array");
     expect(res.body.roles).to.deep.equal(["user"]);
-    expect(res.body.username).to.equal(fakeData.user.username);
-    expect(res.body.email).to.equal(fakeData.user.email);
+    expect(res.body.username).to.equal(user.username);
+    expect(res.body.email).to.equal(user.email);
   });
 
   it("should NOT authenticate a user when one is ALREADY authenticated.", async () => {
-    const res = await agent
-      .post(`${testRoute}/login`)
-      .type("form")
-      .send(fakeData.user);
+    const user = sample(fakeData.users);
+    const res = await agent.post(`${testRoute}/login`).type("form").send(user);
 
     // --- assertions ---
     expect(res).to.have.status(401);
@@ -210,7 +209,8 @@ describe("POST /logout |  revoke authentication functionality.", () => {
 describe("POST /session | persist user data on front end refresh functionality.", () => {
   it("should RETURN session's CURRENT USER if a session exists", async () => {
     // --- log agent back in ---
-    await agent.post(`${testRoute}/login`).type("form").send(fakeData.user);
+    const user = sample(fakeData.users);
+    await agent.post(`${testRoute}/login`).type("form").send(user);
 
     const res = await agent.get(`${testRoute}/session`);
 
@@ -220,8 +220,8 @@ describe("POST /session | persist user data on front end refresh functionality."
     expect(res.body.user).to.have.property("roles");
     expect(res.body.user.roles).to.be.an("array");
     expect(res.body.user.roles).to.deep.equal(["user"]);
-    expect(res.body.user.username).to.equal(fakeData.user.username);
-    expect(res.body.user.email).to.equal(fakeData.user.email);
+    expect(res.body.user.username).to.equal(user.username);
+    expect(res.body.user.email).to.equal(user.email);
   }).timeout(5000);
 
   it("should return NOTHING if no session exists.", async () => {
