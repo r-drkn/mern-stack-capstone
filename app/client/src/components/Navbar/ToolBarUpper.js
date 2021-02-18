@@ -41,9 +41,8 @@ const useStyles = makeStyles((theme) => {
       textDecoration: "none",
       display: "flex",
       alignItems: "center",
-      "&: focus": {
-        border: "none",
-      },
+      margin: 0,
+      padding: 0,
     },
     navLinks: {
       color: secondary.main,
@@ -100,7 +99,7 @@ export default function ToolBarUpper() {
             : classes.headingContainer
         }
       >
-        <NavLink to="/" style={{ textDecoration: "none" }}>
+        <NavLink to="/" style={{ textDecoration: "none", padding: 0 }}>
           <h1 className={classes.catalogHeading}>
             {matchDesktopUp ? "catalogmusic" : "catalog"}
           </h1>

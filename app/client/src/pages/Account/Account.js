@@ -7,9 +7,9 @@ import {
   makeStyles,
   useTheme,
 } from "@material-ui/core";
-import ButtonMain from "../../components/ButtonMain/ButtonMain";
-import ShippingDetails from "../Cart/ShippingDetails";
 import AccountDetails from "./AccountDetails";
+import ShippingForm from "../Cart/ShippingForm";
+import { Redirect } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => {
   const {
@@ -65,7 +65,14 @@ export default function Account() {
         </List>
         <div style={{ width: "80%", height: "100%" }}>
           {accountComponent === "accountDetails" && <AccountDetails />}
-          {accountComponent === "shippingDetails" && <ShippingDetails />}
+          {accountComponent === "shippingDetails" && (
+            <ShippingForm
+              showShippingForm={true}
+              setShowShippingForm={(bool) => {
+                return bool;
+              }}
+            />
+          )}
         </div>
 
         {!auth.isAuthenticated() && <Redirect to="/" />}

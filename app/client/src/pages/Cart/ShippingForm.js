@@ -89,14 +89,16 @@ export default function ShippingForm(props) {
     const getCurrentShipping = async () => {
       if (customer) {
         const { data } = await API.get(`/customer/${customer}`);
+        console.log("here", data.customer);
         setShippingDetails(data.customer);
       } else {
-        setShippingDetails(null);
+        setShippingDetails({});
       }
     };
     getCurrentShipping();
   }, [customer]);
 
+  console.log(shippingDetails);
   const placeHoldShipping = (fieldName) => {
     switch (fieldName) {
       case "first_name":
@@ -111,23 +113,24 @@ export default function ShippingForm(props) {
         );
       case "address_line_1":
         return (
-          (shippingDetails && shippingDetails.address.address_line_1) ||
+          (shippingDetails.address && shippingDetails.address.address_line_1) ||
           "74 Wickham Street"
         );
       case "locality":
         return (
-          (shippingDetails && shippingDetails.address.locality) ||
+          (shippingDetails.address && shippingDetails.address.locality) ||
           "Fortitude Valley"
         );
       case "administrative_district_level_1":
         return (
-          (shippingDetails &&
+          (shippingDetails.address &&
             shippingDetails.address.administrative_district_level_1) ||
           "QLD"
         );
       case "postal_code":
         return (
-          (shippingDetails && shippingDetails.address.postal_code) || "4006"
+          (shippingDetails.address && shippingDetails.address.postal_code) ||
+          "4006"
         );
 
       default:
