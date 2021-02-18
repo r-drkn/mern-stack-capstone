@@ -10,6 +10,7 @@ const useStyles = makeStyles((theme) => {
     root: {
       display: "flex",
       margin: "auto",
+      marginTop: "10vh",
       width: "90vw",
       borderTop: `2px solid ${secondary.light}`,
       paddingBottom: "5vh",
@@ -41,7 +42,7 @@ const useStyles = makeStyles((theme) => {
       padding: 0,
       "& li": {
         fontSize: "1rem",
-        letterSpacing: "1px"
+        letterSpacing: "1px",
       },
     },
     socialsLinks: {
