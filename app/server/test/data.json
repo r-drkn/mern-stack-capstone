@@ -1,0 +1,41 @@
+{
+  "users": [
+    {
+      "username": "JoeBlow",
+      "email": "joeblow@email.com",
+      "password": "Some_password1"
+    },
+    {
+      "username": "Tom",
+      "email": "tom@email.com",
+      "password": "Some_password1"
+    },
+    {
+      "username": "Dick",
+      "email": "dick@email.com",
+      "password": "Some_password1"
+    },
+    {
+      "username": "Harry",
+      "email": "harry@email.com",
+      "password": "Some_password1"
+    }
+  ],
+  "new_user": {
+    "username": "jane",
+    "email": "jane@jane.com",
+    "password": "Some_password1"
+  },
+  "admin_user": {
+    "username": "admin",
+    "email": "admin@admin.com",
+    "password": "Some_password1",
+    "roles": ["user", "admin"]
+  },
+  "super_user": {
+    "username": "super",
+    "email": "super@super.com",
+    "password": "Some_password1",
+    "roles": ["user", "admin", "super"]
+  }
+}

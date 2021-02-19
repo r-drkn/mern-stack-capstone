@@ -1,10 +1,9 @@
 const chai = require("chai");
 const chaiHttp = require("chai-http");
+const bcrypt = require("bcrypt");
 const { app } = require("../server");
-const fakeData = JSON.parse(
-  JSON.stringify(require("./test_data/customer.json"))
-);
-const authRoute = "/api/auth";
+const fakeData = require("./data.json");
+const { sample } = require("./helpers");
 const testRoute = "/api/customer";
 
 // Configures Chai

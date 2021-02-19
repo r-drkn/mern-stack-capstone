@@ -52,4 +52,26 @@ const sendNewsletter = (req, res) => {
   );
 };
 
-module.exports = { sendNewsletter };
+const sendFeedback = (req, res) => {
+  const { name, email: user_email, message: feedback } = req.body;
+
+  mailOptions.template = "feedback";
+  mailOptions.subject = `FEEDBACK from ${name} @ ${user_email}`;
+  mailOptions.context = {
+    title: `FEEDBACK from ${name} @ ${user_email}`,
+    content: `${feedback}`,
+  };
+
+  transporter.sendMail(mailOptions, (err, info) => {
+    if (err) {
+      console.log(err);
+
+      res.status(500).json({ message: err.response });
+    } else {
+      console.log(`FEEDBACK:: received from: ${user_email}`);
+      res.status(200).json({ message: `mail sent to: ${mailOptions.to}` });
+    }
+  });
+};
+
+module.exports = { sendNewsletter, sendFeedback };
