@@ -1,5 +1,14 @@
 const User = require("../models/user");
 
+const findAllUsers = async (req, res, next) => {
+  try {
+    const users = await User.find({});
+    res.status(200).json({ users: users });
+  } catch (e) {
+    res.status(500).json({ message: e.message });
+  }
+};
+
 const findUser = async (username, email) => {
   const user = await User.findOne({
     $and: [{ username }, { email }],
@@ -13,6 +22,7 @@ const findUser = async (username, email) => {
 };
 
 const promoteAdmin = async (req, res, next) => {
+  console.log(req.body);
   const { username, email } = req.body;
   try {
     const admin = await findUser(username, email);
@@ -62,4 +72,4 @@ const listAdmins = async (req, res, next) => {
   }
 };
 
-module.exports = { promoteAdmin, demoteAdmin, listAdmins };
+module.exports = { promoteAdmin, demoteAdmin, listAdmins, findAllUsers };

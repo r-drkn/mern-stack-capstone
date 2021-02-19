@@ -6,6 +6,7 @@ import useStyles from "./DashboardStyles";
 import { useGlobal } from "../../context/GlobalState";
 import EditBlog from "./EditBlog";
 import { useAuth } from "../../context/AuthContext";
+import EditUsers from "./EditUsers";
 
 export default function Dashboard() {
   const classes = useStyles();
@@ -28,11 +29,15 @@ export default function Dashboard() {
             <ListItem button onClick={() => setDashComponent("editBlog")}>
               <ListItemText primary="Edit Blog" />
             </ListItem>
+            <ListItem button onClick={() => setDashComponent("users")}>
+              <ListItemText primary="Users" />
+            </ListItem>
           </List>
           <main className={classes.componentContainer}>
             {dashComponent === "addRecords" && <AddRecords />}
             {dashComponent === "newBlog" && <AddBlog />}
             {dashComponent === "editBlog" && <EditBlog />}
+            {dashComponent === "users" && <EditUsers />}
           </main>
         </div>
       ) : (
