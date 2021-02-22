@@ -41,7 +41,7 @@ export default function Dashboard() {
           </main>
         </div>
       ) : (
-        <span>You shouldn't be here.</span>
+        <span>Hmm... you shouldn't be here...</span>
       )}
     </React.Fragment>
   );

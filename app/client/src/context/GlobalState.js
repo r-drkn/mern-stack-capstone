@@ -15,7 +15,7 @@ const GlobalState = ({ children }) => {
   const [searchQuery, setSearchQuery] = useState(null);
   const [editRecordId, setEditRecordId] = useState(null);
   const [editBlogId, setEditBlogId] = useState(null);
-  const [dashComponent, setDashComponent] = useState("addRecord");
+  const [dashComponent, setDashComponent] = useState("addRecords");
   const [menuDrawer, setMenuDrawer] = useState(false);
 
   return (

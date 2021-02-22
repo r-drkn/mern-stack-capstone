@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { API } from "../../util/fetch";
 import { DataGrid } from "@material-ui/data-grid";
 import Button from "@material-ui/core/Button";
-import { useAuth } from "../../context/AuthContext";
 
 const AdminButton = (props) => {
   const { params } = props;
@@ -26,7 +25,7 @@ const AdminButton = (props) => {
     try {
       await API.post("/admin/demote", { username: username, email: email });
       setIsAdmin(false);
-    } catch (error) {
+    } catch (error){
       console.log(error);
     }
   };
@@ -62,7 +61,14 @@ const AdminButton = (props) => {
           </Button>
         </div>
       ) : (
-        "(SuperAccount)"
+        <span
+          style={{
+            textAlign: "center",
+            width: "100%",
+          }}
+        >
+          (SuperAccount)
+        </span>
       )}
     </React.Fragment>
   );
