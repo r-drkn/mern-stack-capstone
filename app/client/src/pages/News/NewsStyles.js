@@ -89,7 +89,6 @@ const useStyles = makeStyles((theme) => {
     editChip: {
       backgroundColor: fluro.main,
       padding: "0rem 1rem",
-      margin: "auto",
     },
     moreIconContainer: {
       backgroundColor: primary.main,
@@ -107,6 +106,7 @@ const useStyles = makeStyles((theme) => {
     cardActionsContainer: {
       display: "flex",
       justifyContent: "center",
+      alignItems: "center",
     },
   };
 });

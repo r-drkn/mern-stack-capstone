@@ -17,7 +17,7 @@ export default function Home(props) {
         category: "year",
         title: "2021",
       });
-      return data;
+      return data; 
     }
   );
 

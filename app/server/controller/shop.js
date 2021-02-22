@@ -124,10 +124,8 @@ const addItems = async (req, res) => {
   }
 };
 
-
-
 const editItem = async (req, res, next) => {
-  const { _id, description, review, discogs_id,  } = req.body;
+  const { _id, description, review, discogs_id } = req.body;
   const blogObj = { title, byline, body };
 
   try {
@@ -158,6 +156,15 @@ const getMongoCatalog = async (req, res) => {
     );
 
     res.status(200).json({ ids: ids, detailed: catalogList });
+  } catch (e) {
+    res.status(400).json(e.message);
+  }
+};
+
+const getSquareCatalog = async (req, res) => {
+  try {
+    const squareList = await square.getCatalog();
+    res.status(200).json(squareList);
   } catch (e) {
     res.status(400).json(e.message);
   }
@@ -266,6 +273,7 @@ module.exports = {
   addItem,
   addItems,
   getMongoCatalog,
+  getSquareCatalog,
   listItem,
   listItems,
   deleteItem,

@@ -12,7 +12,11 @@ import AddRecordModal from "./AddRecordModal";
 export default function AddRecords() {
   const [records, setRecords] = useState([]);
   const [rows, setRows] = useState([]);
+  const [discogsRecords, setDiscogsRecords] = useState([]);
+  const [discogsRows, setDiscogsRows] = useState([]);
+
   const classes = useStyles();
+  const csvField = useRef(null);
 
   const columns = [
     { field: "discogsId", headerName: "Discogs Id", width: 150 },
@@ -24,7 +28,7 @@ export default function AddRecords() {
     { field: "preloved", headerName: "Preloved?", width: 150 },
   ];
 
-  const { data: recordData, status: recordsStatus } = useQuery(
+  const { data: recordData, status: recordsStatus, refetch } = useQuery(
     "records",
     async () => {
       const { data } = await API.post("/records/query");
@@ -32,6 +36,31 @@ export default function AddRecords() {
       return data;
     }
   );
+
+  const updateTables = async (row) => {
+    const rowIndex = discogsRows.findIndex(
+      (item) => item.discogsId === row.discogsId
+    );
+    const newRows = [...discogsRows];
+    newRows.splice(rowIndex, 1);
+    setDiscogsRows(newRows);
+
+    const recordIndex = discogsRecords.findIndex(
+      (item) => item.release_id === row.discogsId
+    );
+    const newRecords = [...discogsRecords];
+    newRecords.splice(recordIndex, 1);
+    setDiscogsRows(newRows);
+
+    // const filteredRecords = [];
+    // const recordIds = records.map((record) => record.discogs_id);
+    // discogsRecords.map((record) => {
+    //   return recordIds.includes(parseInt(record.release_id))
+    //     ? null
+    //     : filteredRecords.push(record);
+    // });
+    // setDiscogsRecords(filteredRecords);
+  };
 
   useEffect(() => {
     const rows = records.map((record, index) => {
@@ -49,15 +78,27 @@ export default function AddRecords() {
     setRows(rows);
   }, [records]);
 
-  const [discogsRecords, setDiscogsRecords] = useState([]);
-  const [discogsRows, setDiscogsRows] = useState([]);
-  const csvField = useRef(null);
+  useEffect(() => {
+    const discogsRows = discogsRecords.map((record, index) => {
+      return {
+        id: index + 1,
+        discogsId: record.release_id,
+        artists: record.artist,
+        releaseTitle: record.title,
+        price: record.price,
+      };
+    });
+    setDiscogsRows(discogsRows);
+  }, [discogsRecords]);
 
   const AddRecordsButton = (props) => {
     const [addRecordModal, setAddRecordModal] = useState(false);
 
     const { params } = props;
-
+    const record = {
+      release_id: params.row.discogsId,
+      price: params.row.price,
+    };
     return (
       <React.Fragment>
         <Button
@@ -68,22 +109,35 @@ export default function AddRecords() {
             backgroundColor: "blue",
           }}
           onClick={() => {
-            console.log(addRecordModal);
             setAddRecordModal(true);
-            console.log(addRecordModal);
           }}
         >
           Add
         </Button>
         {addRecordModal && (
           <AddRecordModal
+            row={params.row}
             addRecordModal={addRecordModal}
             setAddRecordModal={setAddRecordModal}
+            record={record}
+            updateTables={updateTables}
+            refetchRecords={refetch}
           />
         )}
       </React.Fragment>
     );
   };
+
+  const getSquareCatalog = async () => {
+    try {
+      const { data } = await API.get("/shop/list-square");
+      console.log(data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  getSquareCatalog();
 
   function handleClickCSV() {
     Papa.parse(csvField.current.files[0], {
@@ -108,24 +162,13 @@ export default function AddRecords() {
         const recordIds = records.map((record) => {
           return record.discogs_id;
         });
-        console.log(recordIds);
         parsedRecords.map((record) => {
-          return recordIds.includes(record.release_id)
-            ? console.log("not added")
+          return recordIds.includes(parseInt(record.release_id))
+            ? null
             : filteredRecords.push(record);
         });
 
         setDiscogsRecords(filteredRecords);
-
-        const discogsRows = discogsRecords.map((record, index) => {
-          return {
-            id: index + 1,
-            discogsId: record.release_id,
-            artists: record.artist,
-            releaseTitle: record.title,
-          };
-        });
-        setDiscogsRows(discogsRows);
       },
     });
   }
@@ -134,12 +177,13 @@ export default function AddRecords() {
     { field: "discogsId", headerName: "Discogs ID", width: 150 },
     { field: "artists", headerName: "Artists", width: 200 },
     { field: "releaseTitle", headerName: "Release Title", width: 180 },
+    { field: "price", headerName: "Discogs Price", width: 100 },
     {
       field: "addButton",
       headerName: "Add To Shop",
       width: 120,
       renderCell: (params) => {
-        return <AddRecordsButton />;
+        return <AddRecordsButton params={params} />;
       },
     },
   ];

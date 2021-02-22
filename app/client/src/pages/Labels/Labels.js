@@ -39,7 +39,7 @@ const useStyles = makeStyles((theme) => {
       cursor: "pointer",
       "&:hover": {
         fontStyle: "italic",
-        borderBottom: `1px solid ${secondary.main}`,
+        fontWeight: "800",
       },
     },
     pageTitle: {

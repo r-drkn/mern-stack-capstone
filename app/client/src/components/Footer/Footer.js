@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link, makeStyles } from "@material-ui/core";
 import ContactModal from "../ContactModal/ContactModal";
+import CatalogLogo from "../../images/catalog-long-logo.jpg";
 const useStyles = makeStyles((theme) => {
   const {
     breakpoints,
@@ -53,7 +54,7 @@ const useStyles = makeStyles((theme) => {
       cursor: "pointer",
     },
     footerHeadings: {
-      letterSpacing: "6px",
+      letterSpacing: "4px",
       color: "#777",
     },
     footerSmallText: {
@@ -70,8 +71,18 @@ export default function Footer() {
     <div className={classes.root}>
       <div
         className={classes.footerContainer}
-        style={{ border: "2px solid red", flex: "1" }}
-      ></div>
+        style={{
+          display: "flex",
+          alignItems: "center",
+          padding: "2.5rem 0rem",
+        }}
+      >
+        <img
+          src={CatalogLogo}
+          alt="catalog logo"
+          style={{ height: "100px", width: "100%" }}
+        ></img>
+      </div>
       <div className={classes.footerContainer}>
         <h3 className={classes.footerHeadings}>STORE ADDRESS</h3>
         <ul className={classes.addressList}>

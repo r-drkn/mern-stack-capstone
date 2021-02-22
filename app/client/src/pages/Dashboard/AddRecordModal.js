@@ -6,11 +6,19 @@ import useStyles from "./DashboardStyles";
 
 export default function AddRecordModal(props) {
   const classes = useStyles();
+  const {
+    addRecordModal,
+    setAddRecordModal,
+    record,
+    updateTables,
+    refetchRecords,
+    row,
+  } = props;
   const { register, handleSubmit, errors, reset } = useForm({
-    defaultValues: props.record,
+    defaultValues: record,
   });
+
   const [successfulSubmit, setSuccessfulSubmit] = useState(false);
-  const { addRecordModal, setAddRecordModal } = props;
 
   const submitAddRecord = async (recordInfo) => {
     console.log(recordInfo);
@@ -21,21 +29,23 @@ export default function AddRecordModal(props) {
 
     try {
       await API.post("/shop/add", recordInfo);
+      await refetchRecords();
       showSuccessfulSubmit();
       reset();
     } catch (error) {
       console.log(error);
     }
   };
-
+  
   const showSuccessfulSubmit = () => {
     setSuccessfulSubmit(true);
     setTimeout(() => {
       setSuccessfulSubmit(false);
+      setAddRecordModal(false);
+      updateTables(row);
     }, 2000);
   };
 
-  console.log(addRecordModal);
   return (
     <div>
       <Modal
