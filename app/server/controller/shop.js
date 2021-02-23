@@ -170,6 +170,15 @@ const getSquareCatalog = async (req, res) => {
   }
 };
 
+const getDiscogsCatalog = async (req, res) => {
+  try {
+    const discogsCatalog = await Discogs.getDiscogsInventory();
+    res.status(200).json(discogsCatalog);
+  } catch (e) {
+    res.status(400).json(e.message);
+  }
+};
+
 const listItem = async (req, res) => {
   const { square_id } = req.body;
   try {
@@ -274,6 +283,7 @@ module.exports = {
   addItems,
   getMongoCatalog,
   getSquareCatalog,
+  getDiscogsCatalog,
   listItem,
   listItems,
   deleteItem,

@@ -98,4 +98,14 @@ const batchGetInfo = async (items) => {
   return completed.flat();
 };
 
-module.exports = { getReleaseInfo, batchGetInfo };
+const getDiscogsInventory = async (req, res) => {
+  try {
+    const inventory = await Discogs.get("/users/catalogmusic.co./inventory/");
+    console.log(inventory)
+    return inventory;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+module.exports = { getReleaseInfo, batchGetInfo, getDiscogsInventory };

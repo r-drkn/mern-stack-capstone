@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { API } from "../../util/fetch";
 import { Link } from "react-router-dom";
-import { makeStyles, Paper } from "@material-ui/core";
+import { IconButton, makeStyles, Paper } from "@material-ui/core";
 import TitleBar from "../../components/TitleBar/TitleBar";
 import ResultsGrid from "../../components/ResultsGrid/ResultsGrid";
 
@@ -25,9 +25,24 @@ const useStyles = makeStyles((theme) => {
       outlineOffset: "-3px",
     },
     genresList: {
-      columnCount: "5",
+      display: "flex",
+      padding: 0,
       [breakpoints.down("md")]: {
-        columnCount: "3",
+        display: "flex",
+        justifyContent: "space-evenly",
+      },
+      "& li": {
+        listStyle: "none",
+        margin: 0,
+        padding: 0,
+        "&:hover": {},
+        "& h3": {
+          cursor: "pointer",
+          "&: hover": {
+            fontSize: "1rem",
+            cursor: "pointer",
+          },
+        },
       },
     },
     genreListItem: {
@@ -38,8 +53,8 @@ const useStyles = makeStyles((theme) => {
       textTransform: "lowercase",
       cursor: "pointer",
       "&:hover": {
-        fontStyle: "italic",
-        fontWeight: "800",
+        // fontWeight: "800",
+        textDecoration: "underline",
       },
     },
     pageTitle: {
@@ -58,21 +73,49 @@ export default function Labels() {
   const [label, setLabel] = useState("");
   const [labelStatus, setLabelStatus] = useState("loading");
   const [records, setRecords] = useState([]);
+  const [labelCategory, setLabelCategory] = useState("");
 
   const classes = useStyles();
+  let alphabetizedLabels = {
+    numbers: [],
+    a: [],
+    b: [],
+    c: [],
+    d: [],
+    e: [],
+    f: [],
+    g: [],
+    h: [],
+    i: [],
+    j: [],
+    k: [],
+    l: [],
+    m: [],
+    n: [],
+    o: [],
+    p: [],
+    q: [],
+    r: [],
+    s: [],
+    t: [],
+    u: [],
+    v: [],
+    w: [],
+    x: [],
+    y: [],
+    z: [],
+  };
 
   useEffect(() => {
     const getLabels = async () => {
       try {
         const { data } = await API.get("/records/search");
-        console.log("data labels:", data);
         const labelsGrep = data
           .filter((obj) => {
             return obj.group === "Labels";
           })
           .map((obj) => obj.title);
         const labels = [...new Set(labelsGrep)];
-        console.log(labels);
         setLabelsList(labels);
       } catch (error) {
         console.log(error);
@@ -102,6 +145,20 @@ export default function Labels() {
     }
   }, [label]);
 
+  const addToAlpha = () => {
+    labelsList.map((label) => {
+      const firstChar = label.slice(0, 1).toLowerCase();
+      if (!isNaN(firstChar)) {
+        return alphabetizedLabels.numbers.push(label);
+      } else {
+        return (alphabetizedLabels[firstChar] = alphabetizedLabels[
+          firstChar
+        ].concat(label));
+      }
+    });
+  };
+  addToAlpha();
+
   return (
     <div className={classes.genresContainer}>
       <Link to="/labels" className={classes.linkComponent}>
@@ -109,17 +166,50 @@ export default function Labels() {
       </Link>
       <Paper className={classes.genresListContainer}>
         <ul className={classes.genresList}>
-          {labelsList.map((label) => {
+          {Object.keys(alphabetizedLabels).map((category, index) => {
             return (
-              <li
-                className={classes.genreListItem}
-                onClick={() => setLabel(label)}
-              >
-                {label}
-              </li>
+              <>
+                <li>
+                  {category === "numbers" ? (
+                    <IconButton
+                      style={{ fontSize: "1rem" }}
+                      onClick={() => {
+                        setLabelCategory(category);
+                      }}
+                    >
+                      <span style={{}}>0-9</span>
+                    </IconButton>
+                  ) : (
+                    <IconButton
+                      style={{ fontSize: "1rem" }}
+                      onClick={() => {
+                        setLabelCategory(category);
+                      }}
+                    >
+                      <span style={{}}>{category}</span>
+                    </IconButton>
+                  )}
+                </li>
+              </>
             );
           })}
         </ul>
+        {labelCategory && (
+          <div style={{ border: "4px double #333", padding: "0.5rem" }}>
+            {alphabetizedLabels[labelCategory].map((label) => {
+              return (
+                <p
+                  className={classes.genreListItem}
+                  onClick={() => setLabel(label)}
+                >
+                  {alphabetizedLabels[labelCategory].length
+                    ? label
+                    : "No Labels"}
+                </p>
+              );
+            })}
+          </div>
+        )}
       </Paper>
       {label && (
         <React.Fragment>

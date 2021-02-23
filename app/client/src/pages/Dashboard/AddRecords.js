@@ -1,5 +1,4 @@
 import React, { useEffect, useState, useRef } from "react";
-import { useForm } from "react-hook-form";
 import { API } from "../../util/fetch";
 import useStyles from "./DashboardStyles";
 import { DataGrid } from "@material-ui/data-grid";
@@ -97,7 +96,7 @@ export default function AddRecords() {
     const { params } = props;
     const record = {
       release_id: params.row.discogsId,
-      price: params.row.price,
+      price: params.row.price * 100,
     };
     return (
       <React.Fragment>
@@ -128,16 +127,26 @@ export default function AddRecords() {
     );
   };
 
-  const getSquareCatalog = async () => {
+  // const getSquareCatalog = async () => {
+  //   try {
+  //     const { data } = await API.get("/shop/list-square");
+  //     console.log(data);
+  //   } catch (err) {
+  //     console.log(err);
+  //   }
+  // };
+
+  // getSquareCatalog();
+
+  const getDiscogsCatalog = async () => {
     try {
-      const { data } = await API.get("/shop/list-square");
+      const { data } = await API.get("/shop/list-discogs");
       console.log(data);
-    } catch (err) {
-      console.log(err);
+    } catch (error) {
+      console.log(error);
     }
   };
-
-  getSquareCatalog();
+  getDiscogsCatalog();
 
   function handleClickCSV() {
     Papa.parse(csvField.current.files[0], {
@@ -177,11 +186,11 @@ export default function AddRecords() {
     { field: "discogsId", headerName: "Discogs ID", width: 150 },
     { field: "artists", headerName: "Artists", width: 200 },
     { field: "releaseTitle", headerName: "Release Title", width: 180 },
-    { field: "price", headerName: "Discogs Price", width: 100 },
+    { field: "price", headerName: "Discogs Price", width: 150 },
     {
       field: "addButton",
       headerName: "Add To Shop",
-      width: 120,
+      width: 200,
       renderCell: (params) => {
         return <AddRecordsButton params={params} />;
       },
@@ -191,22 +200,27 @@ export default function AddRecords() {
   return (
     <div className={classes.componentContainer}>
       <div style={{ height: 500, width: "100%", padding: "1rem" }}>
-        <DataGrid rows={rows} columns={columns} pageSize={50} />
+        <DataGrid
+          rows={rows}
+          columns={columns}
+          pageSize={50}
+          style={{ position: "relative", marginBottom: "1rem" }}
+        />
       </div>
-      <div style={{ height: 1000, width: "100%", padding: "1rem" }}>
-        <h3>Discogs Data</h3>
-        <div>
-          <input
-            ref={csvField}
-            type="file"
-            name="csv-field"
-            id="csvField"
-            accept=".csv"
-          />
-          <button id="csv-btn" onClick={(e) => handleClickCSV()}>
-            Search CSV
-          </button>
-        </div>
+      <h3>Discogs Data</h3>
+      <div>
+        <input
+          ref={csvField}
+          type="file"
+          name="csv-field"
+          id="csvField"
+          accept=".csv"
+        />
+        <button id="csv-btn" onClick={(e) => handleClickCSV()}>
+          Search CSV
+        </button>
+      </div>
+      <div style={{ height: 600, width: "100%", padding: "1rem" }}>
         <DataGrid rows={discogsRows} columns={discogsColumns} pageSize={50} />
       </div>
     </div>

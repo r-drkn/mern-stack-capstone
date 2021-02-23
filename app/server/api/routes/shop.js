@@ -6,6 +6,7 @@ const {
   addItems,
   getMongoCatalog,
   getSquareCatalog,
+  getDiscogsCatalog,
   listItems,
   listItem,
   deleteItem,
@@ -25,6 +26,8 @@ router.route("/list-subset").get(listItems);
 router.route("/list-one").get(listItem);
 
 router.route("/list-square").get(getSquareCatalog);
+
+router.route("/list-discogs").get(getDiscogsCatalog);
 
 router.route("/delete").delete(auth.admin, deleteItem);
 

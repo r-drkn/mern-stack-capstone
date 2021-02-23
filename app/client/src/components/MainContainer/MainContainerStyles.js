@@ -10,6 +10,7 @@ const useStyles = makeStyles((theme) => {
     root: {
       backgroundColor: primary.main,
       width: "90vw",
+      minHeight: "80vh",
       height: "100%",
       display: "flex",
       [breakpoints.only("lg")]: {
