@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import useStyles from "./CartStyles";
 import CartItem from "./CartItem";
-import { Card, Container, Button, Box } from "@material-ui/core";
+import { Card, Box } from "@material-ui/core";
 import CartTotals from "./CartTotals";
 import { useCart } from "../../context/CartContext";
 import Checkout from "./Checkout";

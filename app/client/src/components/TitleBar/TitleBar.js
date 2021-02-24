@@ -8,13 +8,13 @@ const useStyles = makeStyles((theme) => {
   return {
     categoryTitle: {
       width: "100%",
-      padding: "0.3rem",
       backgroundColor: secondary.main,
       display: "flex",
-      justifyContent: "center",
+      justifyContent: "flex-start",
       alignItems: "center",
       borderRadius: 0,
       margin: "2rem 0rem",
+      paddingLeft: "1rem",
       // outline: `4px double ${primary.main}`,
       // outlineOffset: "-3px",
     },

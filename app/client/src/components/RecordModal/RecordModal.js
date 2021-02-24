@@ -85,7 +85,6 @@ export default function RecordModal(props) {
         open={recordModalState}
         className={classes.recordModal}
         onClose={closeClick}
-        style={{ border: "2px solid red" }}
       >
         <Card
           className={classes.recordModalCard}

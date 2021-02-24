@@ -95,25 +95,18 @@ export default function SearchField() {
   });
 
   const handleOpen = () => {
-    setOpen(!open);
+    setOpen(true);
   };
 
-  useEffect(() => {
-    inputValue.length > 0 ? setOpen(true) : setOpen(false);
-  }, [inputValue]);
-
-  const handleInputChange = (event, newInputValue) => {
-    setInputValue(newInputValue);
-  };
+  // useEffect(() => {
+  //   inputValue.length > 0 ? setOpen(true) : setOpen(false);
+  // }, [inputValue]);
 
   useEffect(() => {
+    console.log(value);
     setSearchQuery(value);
     setOpen(false);
-    setTimeout(() => {
-      setInputValue("");
-      //TODO add check for menudrawer state to close on search
-    }, 1000);
-  }, [value, setSearchQuery, setRedirect]);
+  }, [value, setSearchQuery]);
 
   return (
     <React.Fragment>
@@ -132,10 +125,6 @@ export default function SearchField() {
             setRedirect(true);
             setMenuDrawer(false);
           }}
-          inputValue={inputValue}
-          onInputChange={(event, newInputValue) =>
-            handleInputChange(event, newInputValue)
-          }
           noOptionsText={"No Results"}
           selectOnFocus
           popupIcon={null}

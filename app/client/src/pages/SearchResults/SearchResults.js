@@ -39,7 +39,8 @@ export default function SearchResults() {
     if (searchQuery) {
       if (searchQuery.group === "Titles") {
         setCategory("release_title");
-      } else if (searchQuery.group === "Artists") {
+      }
+      if (searchQuery.group === "Artists") {
         setCategory("artists_sort");
       } else {
         setCategory(searchQuery.group.toLowerCase());
@@ -55,11 +56,11 @@ export default function SearchResults() {
 
   return (
     <div className={classes.searchContainer}>
-      {searchQuery ? (
-        <TitleBar title={`search results: ${searchQuery.title}`} />
-      ) : (
-        <TitleBar title="No results... try another search." />
-      )}
+      <TitleBar
+        title={`${
+          category === "artists_sort" ? "artists" : category
+        } : ${title}`}
+      />
       {status === "loading" && <p>loading...</p>}
       {status === "success" && <ResultsGrid query={results} status={status} />}
     </div>

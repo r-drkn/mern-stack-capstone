@@ -1,51 +1,51 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { API } from "../../util/fetch";
 import { Link } from "react-router-dom";
-import { IconButton, makeStyles, Paper } from "@material-ui/core";
+import { IconButton, makeStyles, Paper, useTheme } from "@material-ui/core";
 import TitleBar from "../../components/TitleBar/TitleBar";
 import ResultsGrid from "../../components/ResultsGrid/ResultsGrid";
 
 const useStyles = makeStyles((theme) => {
   const {
-    palette: { primary, secondary, fluro },
+    palette: { primary, secondary },
     breakpoints,
   } = theme;
+
   return {
-    genresContainer: {
+    labelsContainer: {
       backgroundColor: primary.main,
       width: "100%",
       height: "100%",
     },
-    genresListContainer: {
-      width: "100%",
+    labelsListContainer: {
       backgroundColor: primary.main,
       borderRadius: 0,
       padding: "1rem",
-      outline: `4px double ${secondary.main}`,
-      outlineOffset: "-3px",
+      border: `4px double ${secondary.main}`,
+      width: "100%",
     },
-    genresList: {
+    labelsList: {
       display: "flex",
-      padding: 0,
+      padding: "1rem",
+      justifyContent: "space-evenly",
       [breakpoints.down("md")]: {
-        display: "flex",
-        justifyContent: "space-evenly",
+        justifyContent: "space-between",
+        position: "relative",
+        width: "100%",
+        height: "100%",
+        overflow: "auto",
+        padding: "1rem 0rem 2rem 0rem",
       },
       "& li": {
         listStyle: "none",
         margin: 0,
         padding: 0,
-        "&:hover": {},
-        "& h3": {
+        "&: hover": {
           cursor: "pointer",
-          "&: hover": {
-            fontSize: "1rem",
-            cursor: "pointer",
-          },
         },
       },
     },
-    genreListItem: {
+    labelsListItem: {
       listStyle: "none",
       fontSize: "1.3rem",
       padding: 0,
@@ -53,7 +53,6 @@ const useStyles = makeStyles((theme) => {
       textTransform: "lowercase",
       cursor: "pointer",
       "&:hover": {
-        // fontWeight: "800",
         textDecoration: "underline",
       },
     },
@@ -65,6 +64,16 @@ const useStyles = makeStyles((theme) => {
     linkComponent: {
       textDecoration: "none",
     },
+    iconButtons: {
+      fontSize: "1rem",
+      margin: 0,
+      padding: 0,
+      boxSizing: "border-box",
+      [breakpoints.down("md")]: {
+        fontSize: "1.5rem",
+        marginLeft: "1rem",
+      },
+    },
   };
 });
 
@@ -74,37 +83,51 @@ export default function Labels() {
   const [labelStatus, setLabelStatus] = useState("loading");
   const [records, setRecords] = useState([]);
   const [labelCategory, setLabelCategory] = useState("");
+  const [alphabetizedLabels, setAlphabetizedLabels] = useState({});
 
   const classes = useStyles();
-  let alphabetizedLabels = {
-    numbers: [],
-    a: [],
-    b: [],
-    c: [],
-    d: [],
-    e: [],
-    f: [],
-    g: [],
-    h: [],
-    i: [],
-    j: [],
-    k: [],
-    l: [],
-    m: [],
-    n: [],
-    o: [],
-    p: [],
-    q: [],
-    r: [],
-    s: [],
-    t: [],
-    u: [],
-    v: [],
-    w: [],
-    x: [],
-    y: [],
-    z: [],
-  };
+
+  useMemo(() => {
+    const newLabels = {
+      numbers: [],
+      a: [],
+      b: [],
+      c: [],
+      d: [],
+      e: [],
+      f: [],
+      g: [],
+      h: [],
+      i: [],
+      j: [],
+      k: [],
+      l: [],
+      m: [],
+      n: [],
+      o: [],
+      p: [],
+      q: [],
+      r: [],
+      s: [],
+      t: [],
+      u: [],
+      v: [],
+      w: [],
+      x: [],
+      y: [],
+      z: [],
+    };
+
+    labelsList.map((label) => {
+      const firstChar = label.slice(0, 1).toLowerCase();
+      if (!isNaN(firstChar)) {
+        return newLabels.numbers.push(label);
+      } else {
+        return (newLabels[firstChar] = newLabels[firstChar].concat(label));
+      }
+    });
+    setAlphabetizedLabels(newLabels);
+  }, [labelsList]);
 
   useEffect(() => {
     const getLabels = async () => {
@@ -145,64 +168,92 @@ export default function Labels() {
     }
   }, [label]);
 
-  const addToAlpha = () => {
-    labelsList.map((label) => {
-      const firstChar = label.slice(0, 1).toLowerCase();
-      if (!isNaN(firstChar)) {
-        return alphabetizedLabels.numbers.push(label);
-      } else {
-        return (alphabetizedLabels[firstChar] = alphabetizedLabels[
-          firstChar
-        ].concat(label));
-      }
-    });
-  };
-  addToAlpha();
+  const theme = useTheme();
 
   return (
-    <div className={classes.genresContainer}>
+    <div className={classes.labelsContainer}>
       <Link to="/labels" className={classes.linkComponent}>
         <h1 className={classes.pageTitle}>labels</h1>
       </Link>
-      <Paper className={classes.genresListContainer}>
-        <ul className={classes.genresList}>
-          {Object.keys(alphabetizedLabels).map((category, index) => {
-            return (
-              <>
-                <li>
-                  {category === "numbers" ? (
-                    <IconButton
-                      style={{ fontSize: "1rem" }}
-                      onClick={() => {
-                        setLabelCategory(category);
-                      }}
-                    >
-                      <span style={{}}>0-9</span>
-                    </IconButton>
-                  ) : (
-                    <IconButton
-                      style={{ fontSize: "1rem" }}
-                      onClick={() => {
-                        setLabelCategory(category);
-                      }}
-                    >
-                      <span style={{}}>{category}</span>
-                    </IconButton>
-                  )}
-                </li>
-              </>
-            );
-          })}
-        </ul>
+      <Paper className={classes.labelsListContainer}>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-evenly",
+            alignItems: "center",
+            width: "100%",
+            position: "relative",
+          }}
+        >
+          <ul className={classes.labelsList}>
+            {Object.keys(alphabetizedLabels).map((category, index) => {
+              return (
+                <>
+                  <li>
+                    {category === "numbers" ? (
+                      <IconButton
+                        className={classes.iconButtons}
+                        onClick={() => {
+                          setLabelCategory(category);
+                        }}
+                        style={{
+                          textDecoration:
+                            labelCategory === category && "underline",
+                        }}
+                      >
+                        <span
+                          style={{
+                            height: "2rem",
+                            width: "2rem",
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
+                          }}
+                        >
+                          0-9
+                        </span>
+                      </IconButton>
+                    ) : (
+                      alphabetizedLabels[category].length > 0 && (
+                        <IconButton
+                          className={classes.iconButtons}
+                          onClick={() => {
+                            setLabelCategory(category);
+                          }}
+                          style={{
+                            textDecoration:
+                              labelCategory === category && "underline",
+                          }}
+                        >
+                          <span
+                            style={{
+                              height: "2rem",
+                              width: "2rem",
+                              display: "flex",
+                              justifyContent: "center",
+                              alignItems: "center",
+                            }}
+                          >
+                            {category}
+                          </span>
+                        </IconButton>
+                      )
+                    )}
+                  </li>
+                </>
+              );
+            })}
+          </ul>
+        </div>
         {labelCategory && (
           <div style={{ border: "4px double #333", padding: "0.5rem" }}>
             {alphabetizedLabels[labelCategory].map((label) => {
               return (
                 <p
-                  className={classes.genreListItem}
+                  className={classes.labelsListItem}
                   onClick={() => setLabel(label)}
                 >
-                  {alphabetizedLabels[labelCategory].length
+                  {alphabetizedLabels[labelCategory].length > 0
                     ? label
                     : "No Labels"}
                 </p>

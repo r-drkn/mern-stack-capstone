@@ -146,7 +146,13 @@ export default function MenuDrawer() {
 
           <ListItemLink
             to="/new"
-            primary="new vinyl"
+            primary="new stock"
+            onClick={() => setMenuDrawer(false)}
+          />
+
+          <ListItemLink
+            to="/labels"
+            primary="labels"
             onClick={() => setMenuDrawer(false)}
           />
 
@@ -162,21 +168,9 @@ export default function MenuDrawer() {
             onClick={() => setMenuDrawer(false)}
           />
 
-          <ListItemLink
-            to="/staffpicks"
-            primary="staff picks"
-            onClick={() => setMenuDrawer(false)}
-          />
-
-          <ListItemLink
-            to="/contact"
-            primary="contact"
-            onClick={() => setMenuDrawer(false)}
-          />
-
           <Divider className={classes.divider} classes={classes.light} />
           <ListItem>
-            <ListItemText inset={true}>catalog music 2020</ListItemText>
+            <ListItemText inset={true}>catalog music 2021</ListItemText>
           </ListItem>
         </List>
       </Drawer>

@@ -43,6 +43,7 @@ const useStyles = makeStyles((theme) => {
     },
     coverImage: {
       width: "100%",
+      height: "100%",
     },
     imageContainer: {
       width: "300px",
