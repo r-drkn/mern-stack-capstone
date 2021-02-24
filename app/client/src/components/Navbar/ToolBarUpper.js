@@ -20,6 +20,7 @@ const useStyles = makeStyles((theme) => {
   const {
     palette: { secondary },
     typography,
+    breakpoints,
   } = theme;
 
   return {
@@ -43,6 +44,9 @@ const useStyles = makeStyles((theme) => {
       alignItems: "center",
       margin: 0,
       padding: 0,
+      [breakpoints.only("xs")]: {
+        fontSize: "1.8rem",
+      },
     },
     navLinks: {
       color: secondary.main,
@@ -100,9 +104,7 @@ export default function ToolBarUpper() {
         }
       >
         <NavLink to="/" style={{ textDecoration: "none", padding: 0 }}>
-          <h1 className={classes.catalogHeading}>
-            {matchDesktopUp ? "catalogmusic" : "catalog"}
-          </h1>
+          <h1 className={classes.catalogHeading}>catalogmusic</h1>
         </NavLink>
       </div>
       {matchTabletDown && <MenuDrawer />}

@@ -1,5 +1,5 @@
 import React from "react";
-import { makeStyles, Paper } from "@material-ui/core";
+import {Fade, makeStyles, Paper } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => {
   const {
@@ -13,10 +13,8 @@ const useStyles = makeStyles((theme) => {
       justifyContent: "flex-start",
       alignItems: "center",
       borderRadius: 0,
-      margin: "2rem 0rem",
+      marginBottom: "2rem",
       paddingLeft: "1rem",
-      // outline: `4px double ${primary.main}`,
-      // outlineOffset: "-3px",
     },
     titleText: {
       letterSpacing: 3,
@@ -32,8 +30,12 @@ export default function TitleBar(props) {
   const { title } = props;
 
   return (
-    <Paper className={classes.categoryTitle}>
-      <h1 className={classes.titleText}>{title.toLowerCase()}</h1>
-    </Paper>
+    <>
+      <Fade in>
+        <Paper className={classes.categoryTitle}>
+          <h1 className={classes.titleText}>{title.toLowerCase()}</h1>
+        </Paper>
+      </Fade>
+    </>
   );
 }

@@ -23,26 +23,22 @@ const useStyles = makeStyles((theme) => {
       padding: "1rem",
       border: `4px double ${secondary.main}`,
       width: "100%",
+      marginBottom: "2rem",
     },
     labelsList: {
       display: "flex",
-      padding: "1rem",
       justifyContent: "space-evenly",
-      [breakpoints.down("md")]: {
+      padding: "1rem 0rem 2rem 0rem",
+      [breakpoints.down("sm")]: {
         justifyContent: "space-between",
         position: "relative",
-        width: "100%",
         height: "100%",
         overflow: "auto",
-        padding: "1rem 0rem 2rem 0rem",
       },
       "& li": {
         listStyle: "none",
         margin: 0,
         padding: 0,
-        "&: hover": {
-          cursor: "pointer",
-        },
       },
     },
     labelsListItem: {
@@ -59,18 +55,17 @@ const useStyles = makeStyles((theme) => {
     pageTitle: {
       color: secondary.main,
       marginTop: 0,
-      padding: "1rem",
+      paddingLeft: "1rem",
     },
     linkComponent: {
       textDecoration: "none",
     },
     iconButtons: {
-      fontSize: "1rem",
+      fontSize: "1.5rem",
       margin: 0,
       padding: 0,
       boxSizing: "border-box",
-      [breakpoints.down("md")]: {
-        fontSize: "1.5rem",
+      [breakpoints.down("sm")]: {
         marginLeft: "1rem",
       },
     },
@@ -213,31 +208,31 @@ export default function Labels() {
                           0-9
                         </span>
                       </IconButton>
-                    ) : (
-                      alphabetizedLabels[category].length > 0 && (
-                        <IconButton
-                          className={classes.iconButtons}
-                          onClick={() => {
-                            setLabelCategory(category);
-                          }}
+                    ) : alphabetizedLabels[category].length > 0 ? (
+                      <IconButton
+                        className={classes.iconButtons}
+                        onClick={() => {
+                          setLabelCategory(category);
+                        }}
+                        style={{
+                          textDecoration:
+                            labelCategory === category && "underline",
+                        }}
+                      >
+                        <span
                           style={{
-                            textDecoration:
-                              labelCategory === category && "underline",
+                            height: "2rem",
+                            width: "2rem",
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
                           }}
                         >
-                          <span
-                            style={{
-                              height: "2rem",
-                              width: "2rem",
-                              display: "flex",
-                              justifyContent: "center",
-                              alignItems: "center",
-                            }}
-                          >
-                            {category}
-                          </span>
-                        </IconButton>
-                      )
+                          {category}
+                        </span>
+                      </IconButton>
+                    ) : (
+                      ""
                     )}
                   </li>
                 </>

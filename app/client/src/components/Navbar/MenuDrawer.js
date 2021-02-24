@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import Drawer from "@material-ui/core/Drawer";
 import {
   Divider,
+  Fade,
   IconButton,
   List,
   ListItem,
@@ -111,68 +112,71 @@ export default function MenuDrawer() {
       >
         <MenuIcon className={classes.menuIcon} />
       </IconButton>
-
       <Drawer
         className={classes.root}
         variant="temporary"
-        anchor="left"
         open={menuDrawer}
         classes={{ paper: classes.paper }}
       >
-        <List style={{ padding: "0px" }}>
-          <ListItem className={classes.toolBarContainer} key="toolBarContainer">
-            <ToolBarMenuDrawer />
-          </ListItem>
-          <ListItem
-            className={classes.searchListItem}
-            alignItems="center"
-            key="searchListItem"
-          >
-            <SearchField />
-          </ListItem>
-          {auth.authState ? (
+        <Fade in timeout={1000}>
+          <List style={{ padding: "0px" }}>
+            <ListItem
+              className={classes.toolBarContainer}
+              key="toolBarContainer"
+            >
+              <ToolBarMenuDrawer />
+            </ListItem>
+            <ListItem
+              className={classes.searchListItem}
+              alignItems="center"
+              key="searchListItem"
+            >
+              <SearchField />
+            </ListItem>
+            {auth.authState ? (
+              <ListItemLink
+                to="/account"
+                primary="my account"
+                onClick={() => setMenuDrawer(false)}
+              />
+            ) : (
+              <ListItemLink
+                to=""
+                primary="log in"
+                onClick={() => globe.setLoginModalState(true)}
+              />
+            )}
+
             <ListItemLink
-              to="/account"
-              primary="my account"
+              to="/new"
+              primary="new stock"
               onClick={() => setMenuDrawer(false)}
             />
-          ) : (
+
             <ListItemLink
-              to=""
-              primary="log in"
-              onClick={() => globe.setLoginModalState(true)}
+              to="/labels"
+              primary="labels"
+              onClick={() => setMenuDrawer(false)}
             />
-          )}
 
-          <ListItemLink
-            to="/new"
-            primary="new stock"
-            onClick={() => setMenuDrawer(false)}
-          />
+            <ListItemLink
+              to="/genres"
+              primary="genres"
+              onClick={() => setMenuDrawer(false)}
+            />
 
-          <ListItemLink
-            to="/labels"
-            primary="labels"
-            onClick={() => setMenuDrawer(false)}
-          />
+            <ListItemLink
+              to="/news"
+              primary="news"
+              onClick={() => setMenuDrawer(false)}
+            />
 
-          <ListItemLink
-            to="/genres"
-            primary="genres"
-            onClick={() => setMenuDrawer(false)}
-          />
-
-          <ListItemLink
-            to="/news"
-            primary="news"
-            onClick={() => setMenuDrawer(false)}
-          />
-
-          <Divider className={classes.divider} classes={classes.light} />
-          <ListItem>
-            <ListItemText inset={true}>catalog music 2021</ListItemText>
-          </ListItem>
-        </List>
+            <Divider className={classes.divider} classes={classes.light} />
+            <ListItem>
+              <ListItemText inset={true}>catalog music 2021</ListItemText>
+            </ListItem>
+          </List>
+        </Fade>
       </Drawer>
     </React.Fragment>
   );

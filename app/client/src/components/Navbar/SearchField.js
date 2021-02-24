@@ -59,7 +59,6 @@ const useStyles = makeStyles((theme) => {
 
 export default function SearchField() {
   const classes = useStyles();
-  const [inputValue, setInputValue] = useState("");
   const [value, setValue] = useState(null);
   const [open, setOpen] = useState(false);
   const [records, setRecords] = useState([]);

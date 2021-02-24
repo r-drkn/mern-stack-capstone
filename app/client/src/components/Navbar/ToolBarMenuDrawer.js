@@ -7,7 +7,7 @@ import Toolbar from "@material-ui/core/Toolbar";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import CloseIcon from "@material-ui/icons/Close";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import BoxFullDark from "../../icons/BoxFull";
 import { useCart } from "../../context/CartContext";
 import { useGlobal } from "../../context/GlobalState";
@@ -16,6 +16,7 @@ const useStyles = makeStyles((theme) => {
   const {
     palette: { primary },
     typography,
+    breakpoints,
   } = theme;
 
   return {
@@ -35,8 +36,12 @@ const useStyles = makeStyles((theme) => {
     },
     catalogHeading: {
       fontFamily: typography.fontFamilyCoolvetica,
-      fontSize: "2.5rem",
-      marginBottom: "2rem",
+      fontSize: "2.2rem",
+      textDecoration: "none",
+      color: primary.main,
+      [breakpoints.only("xs")]: {
+        fontSize: "1.8rem",
+      },
     },
     navIcons: {
       fontSize: "2.5rem",
@@ -56,6 +61,16 @@ const useStyles = makeStyles((theme) => {
         margin: "auto",
       },
     },
+    headingContainer: {
+      position: "absolute",
+      top: 0,
+      bottom: 0,
+      left: 0,
+      right: 0,
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+    },
   };
 });
 
@@ -72,6 +87,15 @@ export default function ToolBarMenuDrawer() {
 
   return (
     <Toolbar className={classes.toolBarDrawer}>
+      <div className={classes.headingContainer}>
+        <NavLink
+          to="/"
+          style={{ textDecoration: "none", padding: 0 }}
+          onClick={() => setMenuDrawer(false)}
+        >
+          <h1 className={classes.catalogHeading}>catalogmusic</h1>
+        </NavLink>
+      </div>
       <IconButton
         edge="start"
         aria-label="menuClose"
@@ -79,7 +103,7 @@ export default function ToolBarMenuDrawer() {
       >
         <CloseIcon className={classes.closeIcon} />
       </IconButton>
-      <h1 className={classes.catalogHeading}>catalog</h1>
+
       <div>
         {matchTabletOnly && (
           <Link to="/account">
